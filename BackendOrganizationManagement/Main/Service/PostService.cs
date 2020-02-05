@@ -123,7 +123,7 @@ namespace BackendOrganizationManagement.Main.Service
             return Post;
         }
 
-        private async Task<List<object>> SqlList(string sql, int limit = 0, int offset = 0)
+        public override  List<object>  SqlList(string sql, int limit = 0, int offset = 0)
         {
             List<object> categoryList = new List<object>();
             dbEntities = new mpi_dbEntities();
@@ -181,12 +181,10 @@ namespace BackendOrganizationManagement.Main.Service
             sql += StringUtil.AddSortQuery(orderby, ordertype);
             dbEntities = new mpi_dbEntities();
            if(updateCount) count = countSQL(sql, dbEntities.posts);
-            Task<List<object>> task =  SqlList(sql, limit, offset);
-            if(task != null && !task.IsFaulted && task.IsCompleted )
-            {
-                return task.Result;
-            }
-            return new List<object>();
+             List<object>  task =  SqlList(sql, limit, offset);
+
+            return task;
+             
         }
 
 
@@ -195,6 +193,6 @@ namespace BackendOrganizationManagement.Main.Service
             return ((DbSet<post>)dbSet)
                 .SqlQuery(sql).Count();
         }
-
+         
     }
 }

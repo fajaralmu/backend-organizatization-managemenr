@@ -74,7 +74,7 @@ namespace BackendOrganizationManagement.Web
 
         private WebResponse DoLogout(WebRequest webRequest)
         {
-            return accountService.DoLogout(Request, WebRequest);
+            return accountService.DoLogout(Request, webRequest);
         }
 
          
