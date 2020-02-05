@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="mpi_dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="division">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="description" Type="varchar" MaxLength="1000" />
+    <Property Name="institution_id" Type="int" Nullable="false" />
+    <Property Name="created_date" Type="datetime" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="event">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="location" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="info" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="done" Type="int" Nullable="false" />
+    <Property Name="participant" Type="int" Nullable="false" />
+    <Property Name="program_id" Type="int" Nullable="false" />
+    <Property Name="user_id" Type="int" Nullable="false" />
+    <Property Name="created_date" Type="datetime" />
+    <Property Name="date" Type="datetime" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="institution">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="description" Type="varchar" MaxLength="1000" />
+    <Property Name="created_date" Type="datetime" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="member">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="name" Type="varchar" MaxLength="100" />
+    <Property Name="description" Type="varchar" MaxLength="1000" />
+    <Property Name="position_id" Type="int" />
+    <Property Name="created_date" Type="datetime" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="position">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="section_id" Type="int" Nullable="false" />
+    <Property Name="parent_position_id" Type="int" />
+    <Property Name="created_date" Type="datetime" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="post">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="name" Type="varchar" MaxLength="100" />
+    <Property Name="body" Type="varchar" MaxLength="1000" />
+    <Property Name="post_id" Type="int" />
+    <Property Name="user_id" Type="int" Nullable="false" />
+    <Property Name="type" Type="int" />
+    <Property Name="date" Type="datetime" />
+    <Property Name="created_date" Type="datetime" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="program">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="description" Type="varchar" MaxLength="1000" />
+    <Property Name="sect_id" Type="int" Nullable="false" />
+    <Property Name="created_date" Type="datetime" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="section">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="division_id" Type="int" Nullable="false" />
+    <Property Name="parent_section_id" Type="int" />
+    <Property Name="created_date" Type="datetime" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="username" Type="varchar" MaxLength="100" />
+    <Property Name="name" Type="varchar" MaxLength="100" />
+    <Property Name="password" Type="varchar" MaxLength="100" />
+    <Property Name="email" Type="varchar" MaxLength="100" />
+    <Property Name="admin" Type="int" />
+    <Property Name="institution_id" Type="int" />
+    <Property Name="created_date" Type="datetime" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <Association Name="division_institution_FK">
+    <End Role="institution" Type="Self.institution" Multiplicity="1" />
+    <End Role="division" Type="Self.division" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="institution">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="division">
+        <PropertyRef Name="institution_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="event_program_FK">
+    <End Role="program" Type="Self.program" Multiplicity="1" />
+    <End Role="event" Type="Self.event" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="program">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="event">
+        <PropertyRef Name="program_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="member_position_FK">
+    <End Role="position" Type="Self.position" Multiplicity="0..1" />
+    <End Role="member" Type="Self.member" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="position">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="member">
+        <PropertyRef Name="position_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="position_section_FK">
+    <End Role="section" Type="Self.section" Multiplicity="1" />
+    <End Role="position" Type="Self.position" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="section">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="position">
+        <PropertyRef Name="section_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="post_user_FK">
+    <End Role="user" Type="Self.user" Multiplicity="1" />
+    <End Role="post" Type="Self.post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="post">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="program_section_FK">
+    <End Role="section" Type="Self.section" Multiplicity="1" />
+    <End Role="program" Type="Self.program" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="section">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="program">
+        <PropertyRef Name="sect_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="section_division_FK">
+    <End Role="division" Type="Self.division" Multiplicity="1" />
+    <End Role="section" Type="Self.section" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="division">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="section">
+        <PropertyRef Name="division_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="user_institution_FK">
+    <End Role="institution" Type="Self.institution" Multiplicity="0..1" />
+    <End Role="user" Type="Self.user" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="institution">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="user">
+        <PropertyRef Name="institution_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="mpi_dbModelStoreContainer">
+    <EntitySet Name="division" EntityType="Self.division" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="event" EntityType="Self.event" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="institution" EntityType="Self.institution" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="member" EntityType="Self.member" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="position" EntityType="Self.position" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="post" EntityType="Self.post" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="program" EntityType="Self.program" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="section" EntityType="Self.section" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="division_institution_FK" Association="Self.division_institution_FK">
+      <End Role="institution" EntitySet="institution" />
+      <End Role="division" EntitySet="division" />
+    </AssociationSet>
+    <AssociationSet Name="event_program_FK" Association="Self.event_program_FK">
+      <End Role="program" EntitySet="program" />
+      <End Role="event" EntitySet="event" />
+    </AssociationSet>
+    <AssociationSet Name="member_position_FK" Association="Self.member_position_FK">
+      <End Role="position" EntitySet="position" />
+      <End Role="member" EntitySet="member" />
+    </AssociationSet>
+    <AssociationSet Name="position_section_FK" Association="Self.position_section_FK">
+      <End Role="section" EntitySet="section" />
+      <End Role="position" EntitySet="position" />
+    </AssociationSet>
+    <AssociationSet Name="post_user_FK" Association="Self.post_user_FK">
+      <End Role="user" EntitySet="user" />
+      <End Role="post" EntitySet="post" />
+    </AssociationSet>
+    <AssociationSet Name="program_section_FK" Association="Self.program_section_FK">
+      <End Role="section" EntitySet="section" />
+      <End Role="program" EntitySet="program" />
+    </AssociationSet>
+    <AssociationSet Name="section_division_FK" Association="Self.section_division_FK">
+      <End Role="division" EntitySet="division" />
+      <End Role="section" EntitySet="section" />
+    </AssociationSet>
+    <AssociationSet Name="user_institution_FK" Association="Self.user_institution_FK">
+      <End Role="institution" EntitySet="institution" />
+      <End Role="user" EntitySet="user" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

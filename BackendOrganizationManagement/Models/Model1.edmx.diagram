@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f2639edf92de429f92a5ae77c09c1995" Name="Diagram1">
+        <EntityTypeShape EntityType="mpi_dbModel.division" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="mpi_dbModel.event" Width="1.5" PointX="9.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="mpi_dbModel.institution" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="mpi_dbModel.member" Width="1.5" PointX="9.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="mpi_dbModel.position" Width="1.5" PointX="7.5" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="mpi_dbModel.post" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="mpi_dbModel.program" Width="1.5" PointX="7.5" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="mpi_dbModel.section" Width="1.5" PointX="5.25" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="mpi_dbModel.user" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
+        <AssociationConnector Association="mpi_dbModel.division_institution_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="mpi_dbModel.section_division_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="mpi_dbModel.event_program_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="mpi_dbModel.user_institution_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="mpi_dbModel.member_position_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="mpi_dbModel.position_section_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="mpi_dbModel.post_user_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="mpi_dbModel.program_section_FK" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

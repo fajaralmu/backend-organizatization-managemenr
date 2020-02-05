@@ -1,0 +1,259 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="mpi_dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="division">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="institution_id" Type="Int32" Nullable="false" />
+    <Property Name="created_date" Type="DateTime" Precision="3" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="institution" Relationship="Self.division_institution_FK" FromRole="division" ToRole="institution" />
+    <NavigationProperty Name="sections" Relationship="Self.section_division_FK" FromRole="division" ToRole="section" />
+  </EntityType>
+  <EntityType Name="event">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="location" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="info" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="done" Type="Int32" Nullable="false" />
+    <Property Name="participant" Type="Int32" Nullable="false" />
+    <Property Name="program_id" Type="Int32" Nullable="false" />
+    <Property Name="user_id" Type="Int32" Nullable="false" />
+    <Property Name="created_date" Type="DateTime" Precision="3" />
+    <Property Name="date" Type="DateTime" Precision="3" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="program" Relationship="Self.event_program_FK" FromRole="event" ToRole="program" />
+  </EntityType>
+  <EntityType Name="institution">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="created_date" Type="DateTime" Precision="3" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="divisions" Relationship="Self.division_institution_FK" FromRole="institution" ToRole="division" />
+    <NavigationProperty Name="users" Relationship="Self.user_institution_FK" FromRole="institution" ToRole="user" />
+  </EntityType>
+  <EntityType Name="member">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="position_id" Type="Int32" />
+    <Property Name="created_date" Type="DateTime" Precision="3" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="position" Relationship="Self.member_position_FK" FromRole="member" ToRole="position" />
+  </EntityType>
+  <EntityType Name="position">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="section_id" Type="Int32" Nullable="false" />
+    <Property Name="parent_position_id" Type="Int32" />
+    <Property Name="created_date" Type="DateTime" Precision="3" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="members" Relationship="Self.member_position_FK" FromRole="position" ToRole="member" />
+    <NavigationProperty Name="section" Relationship="Self.position_section_FK" FromRole="position" ToRole="section" />
+  </EntityType>
+  <EntityType Name="post">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="body" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="post_id" Type="Int32" />
+    <Property Name="user_id" Type="Int32" Nullable="false" />
+    <Property Name="type" Type="Int32" />
+    <Property Name="date" Type="DateTime" Precision="3" />
+    <Property Name="created_date" Type="DateTime" Precision="3" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="user" Relationship="Self.post_user_FK" FromRole="post" ToRole="user" />
+  </EntityType>
+  <EntityType Name="program">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="sect_id" Type="Int32" Nullable="false" />
+    <Property Name="created_date" Type="DateTime" Precision="3" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="events" Relationship="Self.event_program_FK" FromRole="program" ToRole="event" />
+    <NavigationProperty Name="section" Relationship="Self.program_section_FK" FromRole="program" ToRole="section" />
+  </EntityType>
+  <EntityType Name="section">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="division_id" Type="Int32" Nullable="false" />
+    <Property Name="parent_section_id" Type="Int32" />
+    <Property Name="created_date" Type="DateTime" Precision="3" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="division" Relationship="Self.section_division_FK" FromRole="section" ToRole="division" />
+    <NavigationProperty Name="positions" Relationship="Self.position_section_FK" FromRole="section" ToRole="position" />
+    <NavigationProperty Name="programs" Relationship="Self.program_section_FK" FromRole="section" ToRole="program" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="username" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="admin" Type="Int32" />
+    <Property Name="institution_id" Type="Int32" />
+    <Property Name="created_date" Type="DateTime" Precision="3" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="institution" Relationship="Self.user_institution_FK" FromRole="user" ToRole="institution" />
+    <NavigationProperty Name="posts" Relationship="Self.post_user_FK" FromRole="user" ToRole="post" />
+  </EntityType>
+  <Association Name="division_institution_FK">
+    <End Role="institution" Type="Self.institution" Multiplicity="1" />
+    <End Role="division" Type="Self.division" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="institution">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="division">
+        <PropertyRef Name="institution_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="section_division_FK">
+    <End Role="division" Type="Self.division" Multiplicity="1" />
+    <End Role="section" Type="Self.section" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="division">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="section">
+        <PropertyRef Name="division_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="event_program_FK">
+    <End Role="program" Type="Self.program" Multiplicity="1" />
+    <End Role="event" Type="Self.event" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="program">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="event">
+        <PropertyRef Name="program_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="user_institution_FK">
+    <End Role="institution" Type="Self.institution" Multiplicity="0..1" />
+    <End Role="user" Type="Self.user" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="institution">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="user">
+        <PropertyRef Name="institution_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="member_position_FK">
+    <End Role="position" Type="Self.position" Multiplicity="0..1" />
+    <End Role="member" Type="Self.member" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="position">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="member">
+        <PropertyRef Name="position_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="position_section_FK">
+    <End Role="section" Type="Self.section" Multiplicity="1" />
+    <End Role="position" Type="Self.position" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="section">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="position">
+        <PropertyRef Name="section_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="post_user_FK">
+    <End Role="user" Type="Self.user" Multiplicity="1" />
+    <End Role="post" Type="Self.post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="post">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="program_section_FK">
+    <End Role="section" Type="Self.section" Multiplicity="1" />
+    <End Role="program" Type="Self.program" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="section">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="program">
+        <PropertyRef Name="sect_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="mpi_dbEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="divisions" EntityType="Self.division" />
+    <EntitySet Name="events" EntityType="Self.event" />
+    <EntitySet Name="institutions" EntityType="Self.institution" />
+    <EntitySet Name="members" EntityType="Self.member" />
+    <EntitySet Name="positions" EntityType="Self.position" />
+    <EntitySet Name="posts" EntityType="Self.post" />
+    <EntitySet Name="programs" EntityType="Self.program" />
+    <EntitySet Name="sections" EntityType="Self.section" />
+    <EntitySet Name="users" EntityType="Self.user" />
+    <AssociationSet Name="division_institution_FK" Association="Self.division_institution_FK">
+      <End Role="institution" EntitySet="institutions" />
+      <End Role="division" EntitySet="divisions" />
+    </AssociationSet>
+    <AssociationSet Name="section_division_FK" Association="Self.section_division_FK">
+      <End Role="division" EntitySet="divisions" />
+      <End Role="section" EntitySet="sections" />
+    </AssociationSet>
+    <AssociationSet Name="event_program_FK" Association="Self.event_program_FK">
+      <End Role="program" EntitySet="programs" />
+      <End Role="event" EntitySet="events" />
+    </AssociationSet>
+    <AssociationSet Name="user_institution_FK" Association="Self.user_institution_FK">
+      <End Role="institution" EntitySet="institutions" />
+      <End Role="user" EntitySet="users" />
+    </AssociationSet>
+    <AssociationSet Name="member_position_FK" Association="Self.member_position_FK">
+      <End Role="position" EntitySet="positions" />
+      <End Role="member" EntitySet="members" />
+    </AssociationSet>
+    <AssociationSet Name="position_section_FK" Association="Self.position_section_FK">
+      <End Role="section" EntitySet="sections" />
+      <End Role="position" EntitySet="positions" />
+    </AssociationSet>
+    <AssociationSet Name="post_user_FK" Association="Self.post_user_FK">
+      <End Role="user" EntitySet="users" />
+      <End Role="post" EntitySet="posts" />
+    </AssociationSet>
+    <AssociationSet Name="program_section_FK" Association="Self.program_section_FK">
+      <End Role="section" EntitySet="sections" />
+      <End Role="program" EntitySet="programs" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
