@@ -59,7 +59,10 @@ namespace BackendOrganizationManagement.Web
                 }
 
             }
+
             Response.Clear();
+            Response.AddHeader("Access-Control-Allow-Origin", "*");
+            Response.AddHeader("Access-Control-Allow-Methods", "*");
             Response.ContentType = "application/json; charset=utf-8"; 
             Response.Write(JsonConvert.SerializeObject(webResponse));
             Response.End();

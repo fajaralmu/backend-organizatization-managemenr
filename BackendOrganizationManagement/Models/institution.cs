@@ -10,6 +10,7 @@
 namespace BackendOrganizationManagement.Models
 {
     using Main.Dto;
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     [CustomModel]
@@ -32,9 +33,11 @@ namespace BackendOrganizationManagement.Models
         [Id]
         [Column]
         public int id { get; set; }
-    
+
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<division> divisions { get; set; }
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<user> users { get; set; }
     }
