@@ -21,5 +21,8 @@ namespace BackendOrganizationManagement.Main.Dto
         public string entity { get; set; }
         public Filter filter { get; set; }
 
+        //internal
+        public string requestId { get; set; }
+
     }
 }

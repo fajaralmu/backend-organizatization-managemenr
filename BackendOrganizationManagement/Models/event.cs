@@ -38,7 +38,7 @@ namespace BackendOrganizationManagement.Models
         [Column]
         public int id { get; set; }
 
-        [JoinColumn(Name = "program_id")]
+        [JoinColumn(Name = "program_id", Converter = "name")]
         public virtual program program { get; set; }
     }
 }

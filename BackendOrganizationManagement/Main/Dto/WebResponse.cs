@@ -14,6 +14,7 @@ namespace BackendOrganizationManagement.Main.Dto
         public BaseEntity entity { get; set; }
         public List<BaseEntity> entities { get; set; }
         public int totalData { get; set; }
+        public SessionData sessionData { get; set; }
 
         public static WebResponse failed( )
         {

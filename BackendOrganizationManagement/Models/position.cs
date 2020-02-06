@@ -37,7 +37,7 @@ namespace BackendOrganizationManagement.Models
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<member> members { get; set; }
-        [JoinColumn(Name = "section_id")] 
+        [JoinColumn(Name = "section_id", Converter = "name")] 
         public virtual section section { get; set; }
     }
 }

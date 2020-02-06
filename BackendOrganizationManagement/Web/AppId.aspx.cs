@@ -27,6 +27,8 @@ namespace BackendOrganizationManagement.Web
             appService = new ApplicationService();
 
             string RequestPath = "";
+            string requestId = Request.Headers.Get("requestId");
+
             WebResponse webResponse = new WebResponse();
             WebRequest webRequest = new WebRequest();
 
@@ -46,12 +48,15 @@ namespace BackendOrganizationManagement.Web
                 {
                     case "/Generate":
 
-                        webResponse = GenerateAppId();
+                        webResponse = GenerateAppId(requestId); 
                         break;
 
                 }
 
             }
+
+            webResponse.sessionData = RegistryService.Instance().getSessionData(requestId);
+
             Response.AddHeader("Access-Control-Allow-Origin", "*"); 
             Response.AddHeader("Access-Control-Allow-Methods", "*");
             Response.Clear();
@@ -61,10 +66,10 @@ namespace BackendOrganizationManagement.Web
             DebugConsole.Debug("END APP ID");
         }
 
-        private WebResponse GenerateAppId()
+        private WebResponse GenerateAppId(string requestId)
         {
            
-            return appService.generateAppId();
+            return appService.generateAppId(requestId);
         }
     }
 }

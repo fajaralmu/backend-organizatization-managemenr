@@ -35,7 +35,7 @@ namespace BackendOrganizationManagement.Models
         public int id { get; set; }
 
         public string title { get; set; }
-        [JoinColumn(Name = "user_id")] 
+        [JoinColumn(Name = "user_id", Converter = "name")] 
         public virtual user user { get; set; }
     }
 }

@@ -12,10 +12,11 @@ namespace BackendOrganizationManagement.Main.Handler
     public class AccountService
     {
         private UserService userService = new UserService();
+        private SessionService sessionService = new SessionService();
 
         internal WebResponse DoLogin(HttpRequest request, WebRequest webRequest)
         {
-
+             
             user requestUser = webRequest.user;
 
             if(null == requestUser)
@@ -27,10 +28,14 @@ namespace BackendOrganizationManagement.Main.Handler
 
             if(AuthUser!= null)
             {
-                WebResponse response = WebResponse.success(); 
+                WebResponse response = WebResponse.success();
+ 
+                user finalUser = (user) ObjectUtil.CopyObjectIgnore(AuthUser, "posts","password");
 
-                response.user = (user) ObjectUtil.CopyObjectIgnore(AuthUser, "posts","password");
-                return response;
+                response.user = finalUser;
+                bool updateSession = sessionService.putUser(webRequest.requestId, finalUser);
+                if(updateSession)
+                    return response;
             }
 
             return WebResponse.failed();
@@ -39,7 +44,12 @@ namespace BackendOrganizationManagement.Main.Handler
 
         internal WebResponse DoLogout(HttpRequest request, WebRequest webRequest)
         {
-            return WebResponse.success();
+            if (sessionService.removeUser(webRequest.requestId))
+            {
+                return WebResponse.success();
+            }
+
+            return WebResponse.failed();
         }
     }
 }

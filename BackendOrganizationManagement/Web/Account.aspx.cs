@@ -16,22 +16,21 @@ namespace BackendOrganizationManagement.Web
     public partial class Account : System.Web.UI.Page
     {
          
-        const string BASE_PATH = "/Web/Account";
+        private string BASE_PATH = "/Web/Account"; 
+        private AccountService accountService = new AccountService(); 
 
-        private AccountService accountService;
 
         public string ResponseJson { get; private set; }
 
         protected void Page_Load(object sender, EventArgs e)
-        {
-            accountService = new AccountService();
-
-
-            String RawUrl = Request.RawUrl;
-
+        { 
+             
+            String RawUrl = Request.RawUrl; 
             string RequestPath = "";
+            string requestId = Request.Headers.Get("requestId");
+
             WebResponse webResponse = new WebResponse();
-            WebRequest webRequest = new WebRequest();
+            WebRequest webRequest = new WebRequest(); 
 
             if (Request.HttpMethod.Equals("POST"))
             {
@@ -44,6 +43,7 @@ namespace BackendOrganizationManagement.Web
                     RequestPath = RawUrl.Substring(BASE_PATH.Length, RawUrl.Length - BASE_PATH.Length);
                 }
 
+                webRequest.requestId = requestId;
 
                 switch (RequestPath)
                 {
@@ -63,10 +63,12 @@ namespace BackendOrganizationManagement.Web
             Response.Clear();
             Response.AddHeader("Access-Control-Allow-Origin", "*");
             Response.AddHeader("Access-Control-Allow-Methods", "*");
+            Response.AddHeader("Access-Control-Allow-Headers", "*");
             Response.ContentType = "application/json; charset=utf-8"; 
             Response.Write(JsonConvert.SerializeObject(webResponse));
             Response.End();
         }
+         
 
         private WebResponse DoLogout(WebRequest webRequest)
         {
@@ -77,7 +79,7 @@ namespace BackendOrganizationManagement.Web
 
         public WebResponse DoLogin(WebRequest WebRequest)
         {
-
+             
            
             return accountService.DoLogin(Request, WebRequest);
         }

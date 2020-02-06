@@ -436,11 +436,14 @@
     <Compile Include="Main\Dto\BaseEntity.cs" />
     <Compile Include="Main\Attribute\CustomModel.cs" />
     <Compile Include="Main\Dto\Filter.cs" />
+    <Compile Include="Main\Dto\SessionData.cs" />
     <Compile Include="Main\Dto\WebRequest.cs" />
     <Compile Include="Main\Dto\WebResponse.cs" />
     <Compile Include="Main\Handler\AccountService.cs" />
     <Compile Include="Main\Handler\ApplicationService.cs" />
     <Compile Include="Main\Handler\EntityService.cs" />
+    <Compile Include="Main\Handler\RegistryService.cs" />
+    <Compile Include="Main\Handler\SessionService.cs" />
     <Compile Include="Main\Service\BaseService.cs" />
     <Compile Include="Main\Service\DivisionService.cs" />
     <Compile Include="Main\Service\EventService.cs" />

@@ -18,6 +18,7 @@ namespace BackendOrganizationManagement.Web
         const string BASE_PATH = "/Web/Management";
 
         private EntityService entityService;
+        private RegistryService registryService = RegistryService.Instance();
 
         public string ResponseJson { get; private set; }
 
@@ -29,8 +30,11 @@ namespace BackendOrganizationManagement.Web
             String RawUrl = Request.RawUrl;
 
             string RequestPath = "";
+            string requestId = Request.Headers.Get("requestId");
+
             WebResponse webResponse = new WebResponse();
-            WebRequest webRequest = new WebRequest();
+            WebRequest webRequest = new WebRequest()
+             ;
 
             if (Request.HttpMethod.Equals("POST"))
             {
@@ -42,6 +46,8 @@ namespace BackendOrganizationManagement.Web
                 {
                     RequestPath = RawUrl.Substring(BASE_PATH.Length, RawUrl.Length - BASE_PATH.Length);
                 }
+
+                webRequest.requestId = requestId;
 
                 DebugConsole.Debug(this, "RequestPath: " + RequestPath, "Raw: ",RawUrl);
                 switch (RequestPath)
@@ -66,6 +72,9 @@ namespace BackendOrganizationManagement.Web
                 }
 
             }
+
+            webResponse.sessionData = registryService.getSessionData(requestId);
+
             Response.Clear();
             Response.AddHeader("Access-Control-Allow-Origin", "*");
             Response.AddHeader("Access-Control-Allow-Methods", "*");

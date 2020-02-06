@@ -39,7 +39,7 @@ namespace BackendOrganizationManagement.Models
         [Id]
         [Column]
         public int id { get; set; }
-        [JoinColumn(Name = "institution_id")] 
+        [JoinColumn(Name = "institution_id", Converter = "name")] 
         public virtual institution institution { get; set; }
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

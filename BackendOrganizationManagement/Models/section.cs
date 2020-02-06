@@ -37,7 +37,7 @@ namespace BackendOrganizationManagement.Models
         public int id { get; set; }
 
 
-        [JoinColumn(Name = "division_id")]
+        [JoinColumn(Name = "division_id", Converter = "name")]
         public virtual division division { get; set; }
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
