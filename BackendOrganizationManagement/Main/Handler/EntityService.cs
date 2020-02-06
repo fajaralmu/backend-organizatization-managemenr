@@ -144,6 +144,7 @@ namespace BackendOrganizationManagement.Main.Handler
             Filter filter = request.filter;
             String[] sqlListAndCount = generateSqlByFilter(filter, entityClass);
             String sql = sqlListAndCount[0];
+
             String sqlCount = sqlListAndCount[1];
 
             int offset = filter.page;// * filter.limit;

@@ -34,7 +34,7 @@ namespace BackendOrganizationManagement.Models
         [Column]
         public int id { get; set; }
     
-        [JoinColumn(Name= "institution_id")]
+        [JoinColumn(Name= "institution_id", Converter ="name")]
         
         public virtual institution institution { get; set; }
         [JsonIgnore]
