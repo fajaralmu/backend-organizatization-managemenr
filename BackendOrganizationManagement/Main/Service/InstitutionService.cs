@@ -1,51 +1,50 @@
-﻿using BackendOrganizationManagement.Main.Dto;
-using BackendOrganizationManagement.Main.Util;
-using BackendOrganizationManagement.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using BackendOrganizationManagement.Models;
+using BackendOrganizationManagement.Main.Util;
+using BackendOrganizationManagement.Main.Dto;
 
 namespace BackendOrganizationManagement.Main.Service
 {
-    public class MemberService
-
+    public class InstitutionService
         : BaseService
     {
 
         public override List<object> ObjectList(int offset, int limit)
         {
-            dbEntities = new mpi_dbEntities();
             List<object> ObjList = new List<object>();
-            var Sql = (from p in dbEntities.members orderby p.name select p);
-            List<member> List = Sql.Skip(offset * limit).Take(limit).ToList();
-            foreach (member c in List)
+            dbEntities = new mpi_dbEntities();
+            var Sql = (from p in dbEntities.institutions orderby p.name select p);
+            List<institution> List = Sql.Skip(offset * limit).Take(limit).ToList();
+            foreach (institution c in List)
             {
                 ObjList.Add(c);
             }
-            count = dbEntities.members.Count();
+            count = dbEntities.institutions.Count();
             return ObjList;
         }
         public override BaseEntity Update(object Obj)
         {
             dbEntities = new mpi_dbEntities();
-            member member = (member)Obj;
-            member DBmember = (member)GetById(member.id);
-            if (DBmember == null)
+            institution institution = (institution)Obj;
+            institution DBinstitution = (institution)GetById(institution.id);
+            if (DBinstitution == null)
             {
                 return null;
             }
-            dbEntities.Entry(DBmember).CurrentValues.SetValues(member);
+            dbEntities.Entry(DBinstitution).CurrentValues.SetValues(institution);
             dbEntities.SaveChanges();
-            return member;
+            return institution;
         }
 
         public override BaseEntity GetById(object Id)
         {
             dbEntities = new mpi_dbEntities();
-            member member = (from c in dbEntities.members where c.id == (int)Id select c).SingleOrDefault();
-            return member;
+            institution institution = (from c in dbEntities.institutions where c.id == (int)Id select c).SingleOrDefault();
+            return institution;
         }
 
         public override bool Delete(object Obj)
@@ -53,8 +52,8 @@ namespace BackendOrganizationManagement.Main.Service
             try
             {
                 dbEntities = new mpi_dbEntities();
-                member member = (member)Obj;
-                dbEntities.members.Remove(member);
+                institution institution = (institution)Obj;
+                dbEntities.institutions.Remove(institution);
                 dbEntities.SaveChanges();
                 return true;
             }
@@ -70,19 +69,18 @@ namespace BackendOrganizationManagement.Main.Service
 
         public override int ObjectCount()
         {
-            return count;// dbEntities.members.Count();
+            return count;// dbEntities.institutions.Count();
         }
 
         public override BaseEntity Add(object Obj)
         {
-            member member = (member)Obj;
+            institution institution = (institution)Obj;
+            dbEntities = new mpi_dbEntities();
+            institution newinstitution = dbEntities.institutions.Add(institution);
             try
             {
-                dbEntities = new mpi_dbEntities();
-                member newmember = dbEntities.members.Add(member);
-
                 dbEntities.SaveChanges();
-                return newmember;
+                return newinstitution;
             }
             catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
             {
@@ -110,35 +108,33 @@ namespace BackendOrganizationManagement.Main.Service
         {
             List<object> categoryList = new List<object>();
             dbEntities = new mpi_dbEntities();
-
-            var members = dbEntities.members
+            var institutions = dbEntities.institutions
                 .SqlQuery(sql
                 ).
-                Select(member => new
+                Select(institution => new
                 {
-                    member
+                    institution
                 });
             if (limit > 0)
             {
-                members = members.Skip(offset * limit).Take(limit).ToList();
+                institutions = institutions.Skip(offset * limit).Take(limit).ToList();
             }
             else
             {
-                members = members.ToList();
+                institutions = institutions.ToList();
             }
-            foreach (var u in members)
+            foreach (var u in institutions)
             {
-                member member = u.member;
-                categoryList.Add(member);
+                institution institution = u.institution;
+                categoryList.Add(institution);
             }
-            count = countSQL(sql, dbEntities.members);
+            count = countSQL(sql, dbEntities.institutions);
             return categoryList;
-        }
-         
+        } 
 
         public override int countSQL(string sql, object dbSet)
         {
-            return ((DbSet<member>)dbSet)
+            return ((DbSet<institution>)dbSet)
                 .SqlQuery(sql).Count();
         }
 

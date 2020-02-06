@@ -141,32 +141,7 @@ namespace BackendOrganizationManagement.Main.Service
 
             return categoryList;
         }
-
-        public override List<object> SearchAdvanced(Dictionary<string, object> Params, int limit = 0, int offset = 0, bool updateCount = true)
-        {
-
-            string id = Params.ContainsKey("id") ? Params["id"].ToString() : "";
-            string name = Params.ContainsKey("name") ? (string)Params["name"] : "";
-            string division = Params.ContainsKey("division") ? (string)Params["division"] : "";
-            string institution_id = Params.ContainsKey("institution_id") ? Params["institution_id"].ToString() : "";
-            string orderby = Params.ContainsKey("orderby") ? (string)Params["orderby"] : "";
-            string ordertype = Params.ContainsKey("ordertype") ? (string)Params["ordertype"] : "";
-
-            string sql = "select * from [section] " +
-                //      " left join section on section.id = section.section_id " +
-                //        " left join section on section.id = section.section_id " +
-                " left join [division] on [division].[id] = [section].[division_id] " +
-                " where [section].[id] like '%" + id + "%'" +
-                " and [section].[name] like '%" + name + "%' " +
-                " and [division].[name] like '%" + division + "%' " +
-                (StringUtil.NotNullAndNotBlank(institution_id) ? " and [division].[institution_id] =" + institution_id : "");
-            sql += StringUtil.AddSortQuery(orderby, ordertype);
-            dbEntities = new mpi_dbEntities();
-            count = countSQL(sql, dbEntities.sections);
-            return SqlList(sql, limit, offset);
-        }
-
-
+         
         public override int countSQL(string sql, object dbSet)
         {
             return ((DbSet<section>)dbSet)

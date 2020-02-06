@@ -135,6 +135,10 @@ namespace BackendOrganizationManagement.Main.Handler
                     entityClass = typeof(member);
                     this.baseService = new MemberService();
                     break;
+                case "institution":
+                    entityClass = typeof(institution);
+                    this.baseService = new InstitutionService();
+                    break;
 
             }
             Filter filter = request.filter;
@@ -142,7 +146,7 @@ namespace BackendOrganizationManagement.Main.Handler
             String sql = sqlListAndCount[0];
             String sqlCount = sqlListAndCount[1];
 
-            int offset = filter.page * filter.limit;
+            int offset = filter.page;// * filter.limit;
             bool withLimit = filter.limit > 0;
 
             int limit = withLimit ? filter.limit : 0;

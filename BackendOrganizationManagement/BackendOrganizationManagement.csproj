@@ -447,6 +447,7 @@
     <Compile Include="Main\Service\MemberService.cs" />
     <Compile Include="Main\Service\PositionService.cs" />
     <Compile Include="Main\Service\PostService.cs" />
+    <Compile Include="Main\Service\InstitutionService.cs" />
     <Compile Include="Main\Service\ProgramService.cs" />
     <Compile Include="Main\Service\SectionService.cs" />
     <Compile Include="Main\Service\UserService.cs" />

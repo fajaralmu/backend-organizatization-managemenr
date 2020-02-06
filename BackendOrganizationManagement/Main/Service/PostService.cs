@@ -160,32 +160,7 @@ namespace BackendOrganizationManagement.Main.Service
             return new List<object>();
 
         }
-
-        public override List<object> SearchAdvanced(Dictionary<string, object> Params, int limit = 0, int offset = 0, bool updateCount = true)
-        {
-
-            string id = Params.ContainsKey("id") ? Params["id"].ToString() : "";
-            string user_id = Params.ContainsKey("user_id") ? Params["user_id"].ToString() : "";
-            string title = Params.ContainsKey("title") ? (string)Params["title"] : "";
-            string orderby = Params.ContainsKey("orderby") ? (string)Params["orderby"] : "";
-            string ordertype = Params.ContainsKey("ordertype") ? (string)Params["ordertype"] : "";
-            string institution_id = Params.ContainsKey("institution_id") ? Params["institution_id"].ToString() : "";
-
-            string dateFilterQuery = StringUtil.AddDateFilterQuery(Params, "post", "date", true);
-
-            string sql = "select * from [post] left join [user] on [user].[id] = [post].[user_id] where [post].[id] like '%" + id + "%'" +
-                " and [post].[title] like '%" + title + "%' " +
-                 (StringUtil.NotNullAndNotBlank(user_id) ? " and [post].[user_id]=" + user_id : "") +
-                  (StringUtil.NotNullAndNotBlank(institution_id) ? " and [user].[institution_id]=" + institution_id : "") +
-                 dateFilterQuery;
-            sql += StringUtil.AddSortQuery(orderby, ordertype);
-            dbEntities = new mpi_dbEntities();
-           if(updateCount) count = countSQL(sql, dbEntities.posts);
-             List<object>  task =  SqlList(sql, limit, offset);
-
-            return task;
-             
-        }
+ 
 
 
         public override int countSQL(string sql, object dbSet)

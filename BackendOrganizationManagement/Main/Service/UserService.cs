@@ -67,13 +67,13 @@ namespace BackendOrganizationManagement.Main.Service
 
         public user GetUserByUsernameAndPassword(string Username, string Password)
         {
-            DebugConsole.Debug(this,"DB ENTITIES IS NULL: "+ (dbEntities==null));
+            DebugConsole.Debug(this, "DB ENTITIES IS NULL: " + (dbEntities == null));
             dbEntities = new mpi_dbEntities();
             if (dbEntities == null || Username == null || Password == null)
             {
                 return null;
             }
-          
+
             DebugConsole.Debug(this, dbEntities.users.ToString());
             user User = (from u in dbEntities.users
                          where u.username.Equals(Username) && u.password.Equals(Password)
@@ -153,24 +153,6 @@ namespace BackendOrganizationManagement.Main.Service
             }
             count = countSQL(sql, dbEntities.users);
             return categoryList;
-        }
-
-        public override List<object> SearchAdvanced(Dictionary<string, object> Params, int limit = 0, int offset = 0, bool updateCount = true)
-        {
-
-            string id = Params.ContainsKey("id") ? (string)Params["id"] : "";
-            string name = Params.ContainsKey("name") ? (string)Params["name"] : "";
-            string institution_id = Params.ContainsKey("institution_id") ? Params["institution_id"].ToString() : "";
-            string orderby = Params.ContainsKey("orderby") ? (string)Params["orderby"] : "";
-            string ordertype = Params.ContainsKey("ordertype") ? (string)Params["ordertype"] : "";
-
-            string sql = "select * from [user] where [id] like '%" + id + "%'" +
-                " and [name] like '%" + name + "%' " + (StringUtil.NotNullAndNotBlank(institution_id) ? " and [institution_id]=" + institution_id + " " : "");
-            ;
-            sql += StringUtil.AddSortQuery(orderby, ordertype);
-            dbEntities = new mpi_dbEntities();
-            count = countSQL(sql, dbEntities.users);
-            return SqlList(sql, limit, offset);
         }
 
 

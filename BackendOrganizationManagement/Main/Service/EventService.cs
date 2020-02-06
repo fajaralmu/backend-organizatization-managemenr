@@ -131,45 +131,7 @@ namespace BackendOrganizationManagement.Main.Service
             }
             count = countSQL(sql, dbEntities.events);
             return categoryList;
-        }
-
-        public override List<object> SearchAdvanced(Dictionary<string, object> Params, int limit = 0, int offset = 0, bool updateCount = true)
-        {
-
-            string id = Params.ContainsKey("id") ? Params["id"].ToString() : "";
-            string name = Params.ContainsKey("name") ? (string)Params["name"] : "";
-            string program = Params.ContainsKey("program") ? (string)Params["program"] : "";
-            string location = Params.ContainsKey("location") ? (string)Params["location"] : "";
-            string participant = Params.ContainsKey("participant") ? Params["participant"].ToString() : "";
-            string info = Params.ContainsKey("info") ? (string)Params["info"] : "";
-
-           
-            string institution_id = Params.ContainsKey("institution_id") ? Params["institution_id"].ToString() : "";
-            string orderby = Params.ContainsKey("orderby") ? (string)Params["orderby"] : "";
-            string ordertype = Params.ContainsKey("ordertype") ? (string)Params["ordertype"] : "";
-
-            string dateFilterQuery = StringUtil.AddDateFilterQuery(Params, "event", "date", true);
-            string sql = "select * from [event] left join [program] on [program].[id]=[event].[program_id] " +
-                " left join [section] on [section].[id] = [program].[sect_id] " +
-                " left join [division] on [division].[id] = [section].[division_id] where [event].[id] like '%" + id + "%'" +
-                " and [event].[name] like '%" + name + "%' " +
-                " and [program].[name]  like '%" + program + "%' " +
-                " and [event].[location]  like '%" + location + "%' " +
-                " and [event].[participant]  like '%" + participant + "%' " +
-                " and [event].[info]  like '%" + info + "%' " +
-                (StringUtil.NotNullAndNotBlank(institution_id) ? " and [division].[institution_id] = " + institution_id : "") +
-                dateFilterQuery;
-            /* (StringUtil.NotNullAndNotBlank(day) ? " and DAY([event].[date]) = " + day : "") +
-                (StringUtil.NotNullAndNotBlank(month) ? " and MONTH([event].[date]) = " + month : "") +
-                (StringUtil.NotNullAndNotBlank(year) ? " and YEAR([event].[date]) = " + year : "");
-          */
-            sql += StringUtil.AddSortQuery(orderby, ordertype);
-            dbEntities = new mpi_dbEntities();
-            count = countSQL(sql, dbEntities.events);
-            return SqlList(sql, limit, offset);
-        }
-
-
+        } 
         public override int countSQL(string sql, object dbSet)
         {
             return ((DbSet<@event>)dbSet)
