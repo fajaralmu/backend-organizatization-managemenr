@@ -29,7 +29,7 @@ namespace BackendOrganizationManagement.Main.Handler
             {
                 WebResponse response = WebResponse.success(); 
 
-                response.user = (user) ObjectUtil.CopyObjectIgnore(AuthUser,"institution","posts","password");
+                response.user = (user) ObjectUtil.CopyObjectIgnore(AuthUser, "posts","password");
                 return response;
             }
 

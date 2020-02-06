@@ -439,6 +439,7 @@
     <Compile Include="Main\Dto\WebRequest.cs" />
     <Compile Include="Main\Dto\WebResponse.cs" />
     <Compile Include="Main\Handler\AccountService.cs" />
+    <Compile Include="Main\Handler\ApplicationService.cs" />
     <Compile Include="Main\Handler\EntityService.cs" />
     <Compile Include="Main\Service\BaseService.cs" />
     <Compile Include="Main\Service\DivisionService.cs" />

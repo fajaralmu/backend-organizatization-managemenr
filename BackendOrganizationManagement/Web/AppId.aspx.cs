@@ -11,16 +11,20 @@ using Newtonsoft.Json;
 using BackendOrganizationManagement.Main.Dto;
 using System.IO;
 using OrgWebMvc.Main.Util;
+using BackendOrganizationManagement.Main.Handler;
 
 namespace BackendOrganizationManagement.Web
 {
     public partial class WebForm1 : System.Web.UI.Page
     {
         const String BASE_PATH = "/Web/AppId";
+        private ApplicationService appService;
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
             String RawUrl = Request.RawUrl;
+            appService = new ApplicationService();
 
             string RequestPath = "";
             WebResponse webResponse = new WebResponse();
@@ -59,12 +63,8 @@ namespace BackendOrganizationManagement.Web
 
         private WebResponse GenerateAppId()
         {
-            WebResponse response = WebResponse.success();
-            NameValueCollection header = new NameValueCollection();
-            string RandomChar = StringUtil.GenerateRandomChar(20);
-
-            response.message = RandomChar;
-            return response;
+           
+            return appService.generateAppId();
         }
     }
 }

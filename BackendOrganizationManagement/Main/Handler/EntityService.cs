@@ -71,6 +71,8 @@ namespace BackendOrganizationManagement.Main.Handler
         {
             BaseEntity result = null;
 
+            entity = validateEntity(entity);
+
             if (newRecord)
             {
                 result = baseService.Add(entity);
@@ -85,10 +87,31 @@ namespace BackendOrganizationManagement.Main.Handler
             return response;
         }
 
+        private BaseEntity validateEntity(BaseEntity entity)
+        {
+           List<PropertyInfo> props = EntityUtil.getDeclaredField(entity.GetType());
 
+            foreach (PropertyInfo prop in props)
+            {
+                Attribute attr = prop.GetCustomAttribute(typeof(JoinColumn));
+                if (attr != null)
+                {
+                    JoinColumn joinColumn = (JoinColumn)attr;
+                    string joinColumnName = joinColumn.Name;
 
+                    object propValue = prop.GetValue(entity);
 
+                    PropertyInfo idFieldOfJoinColumn = EntityUtil.getIdField(propValue.GetType());
+                    object id = idFieldOfJoinColumn.GetValue(propValue);
 
+                    PropertyInfo entity_fk = EntityUtil.getSingleDeclaredField(entity.GetType(), joinColumnName);
+                    entity_fk.SetValue(entity, id);
+
+                    prop.SetValue(entity, null);
+                }
+            }
+            return entity;
+        }
 
         public WebResponse filter(WebRequest request)
         {
@@ -387,28 +410,27 @@ namespace BackendOrganizationManagement.Main.Handler
         private static String generateOrderSql(Type entityClass, String orderType, String orderBy)
         {
             // set order by 
-            List<PropertyInfo> orderByPropertyInfo = EntityUtil.getDeclaredField(entityClass, orderBy);
+             PropertyInfo orderByPropertyInfo = EntityUtil.getSingleDeclaredField(entityClass, orderBy);
             if (orderByPropertyInfo == null)
             {
                 return null;
             }
-            PropertyInfo idPropertyInfo = EntityUtil.getIdField(entityClass);
-            if (idPropertyInfo == null)
-            {
-                return null;
-            }
-            String columnName = idPropertyInfo.Name;
+
+            String columnName = orderBy;
             String tableName = entityClass.Name;
-            if (idPropertyInfo.GetCustomAttribute(typeof(JoinColumn)) != null)
+
+           Attribute joinColumnAttr = orderByPropertyInfo.GetCustomAttribute(typeof(JoinColumn));
+
+            if (joinColumnAttr != null)
             {
-                Type PropertyInfoClass = idPropertyInfo.PropertyType;
+                Type PropertyInfoClass = orderByPropertyInfo.PropertyType;
                 tableName = (PropertyInfoClass).Name;
 
                 try
                 {
-                    JoinColumn formPropertyInfo = (JoinColumn)idPropertyInfo.GetCustomAttribute(typeof(JoinColumn));
+                    JoinColumn formPropertyInfo = (JoinColumn)joinColumnAttr;
                     PropertyInfo PropertyInfoPropertyInfo = PropertyInfoClass.GetProperty(formPropertyInfo.Converter);
-                    columnName = getColumnName(PropertyInfoPropertyInfo);
+                    columnName = formPropertyInfo.Converter;// getColumnName(PropertyInfoPropertyInfo);
                     if(null == columnName)
                     {
                         return null;
