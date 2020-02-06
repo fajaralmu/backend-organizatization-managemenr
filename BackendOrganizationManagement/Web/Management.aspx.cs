@@ -1,8 +1,8 @@
 ﻿using BackendOrganizationManagement.Main.Dto;
 using BackendOrganizationManagement.Main.Handler;
-using BackendOrganizationManagement.Main.Service;
 using BackendOrganizationManagement.Main.Util;
 using Newtonsoft.Json;
+using OrgWebMvc.Main.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,18 +13,17 @@ using System.Web.UI.WebControls;
 
 namespace BackendOrganizationManagement.Web
 {
-    public partial class Account : System.Web.UI.Page
+    public partial class Management : System.Web.UI.Page
     {
-         
-        const string BASE_PATH = "/Web/Account";
+        const string BASE_PATH = "/Web/Management";
 
-        private AccountService accountService;
+        private EntityService entityService;
 
         public string ResponseJson { get; private set; }
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            accountService = new AccountService();
+            this.entityService = new EntityService();
 
 
             String RawUrl = Request.RawUrl;
@@ -35,8 +34,8 @@ namespace BackendOrganizationManagement.Web
 
             if (Request.HttpMethod.Equals("POST"))
             {
-                if (Request.ContentType.Equals( "application/json"))
-                {
+                if (Request.ContentType.Equals("application/json"))
+                {  
                     webRequest = RestUtil.readRequestBody(Request);
                 }
                 if (BASE_PATH.Equals(RawUrl) == false)
@@ -44,39 +43,34 @@ namespace BackendOrganizationManagement.Web
                     RequestPath = RawUrl.Substring(BASE_PATH.Length, RawUrl.Length - BASE_PATH.Length);
                 }
 
-
+                DebugConsole.Debug(this, "RequestPath: " + RequestPath, "Raw: ",RawUrl);
                 switch (RequestPath)
                 {
-                    case "/Login":
+                    case "/Add":
 
-                        webResponse = DoLogin(webRequest);
+                       webResponse = entityService.addEntity(webRequest, Request, true);
                         break;
-                    case "/Logout":
+                    case "/Update":
 
-                        webResponse = DoLogout(webRequest);
+                        webResponse = entityService.addEntity(webRequest, Request, false);
+                        break;
+                    case "/Get":
+
+                        webResponse = entityService.filter(webRequest);
+                        break;
+                    case "/Delete":
+
+                        webResponse = entityService.delete(webRequest);
                         break;
 
                 }
 
             }
             Response.Clear();
-            Response.ContentType = "application/json; charset=utf-8"; 
+            Response.ContentType = "application/json; charset=utf-8";
             Response.Write(JsonConvert.SerializeObject(webResponse));
             Response.End();
         }
 
-        private WebResponse DoLogout(WebRequest webRequest)
-        {
-            return accountService.DoLogout(Request, webRequest);
-        }
-
-         
-
-        public WebResponse DoLogin(WebRequest WebRequest)
-        {
-
-           
-            return accountService.DoLogin(Request, WebRequest);
-        }
     }
 }

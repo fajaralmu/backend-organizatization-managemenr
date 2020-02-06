@@ -21,15 +21,23 @@ namespace BackendOrganizationManagement.Models
         {
             this.posts = new HashSet<post>();
         }
-    
+
+        [Column]
         public string username { get; set; }
-        public string name { get; set; } 
+        [Column]
+        public string name { get; set; }
+        [Column]
         public string password { get; set; }
+        [Column]
         public string email { get; set; }
+        [Column]
         public Nullable<int> admin { get; set; }
+        [Column]
         public Nullable<int> institution_id { get; set; }
+        [Column]
         public Nullable<System.DateTime> created_date { get; set; }
         [Id]
+        [Column]
         public int id { get; set; }
         [JoinColumn(Name = "institution_id")] 
         public virtual institution institution { get; set; }

@@ -15,17 +15,29 @@ namespace BackendOrganizationManagement.Models
     [CustomModel]
     public partial class @event : Main.Dto.BaseEntity
     {
+        [Column]
         public string name { get; set; }
+        [Column]
         public string location { get; set; }
+        [Column]
+         
         public string info { get; set; }
+        [Column]
         public int done { get; set; }
+        [Column]
         public int participant { get; set; }
+        [Column]
         public int program_id { get; set; }
+        [Column]
         public int user_id { get; set; }
+        [Column]
         public Nullable<System.DateTime> created_date { get; set; }
+        [Column]
         public Nullable<System.DateTime> date { get; set; }
         [Id]
+        [Column]
         public int id { get; set; }
+
         [JoinColumn(Name = "program_id")]
         public virtual program program { get; set; }
     }

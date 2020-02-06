@@ -649,42 +649,42 @@ public class TypeMapper
 
     public IEnumerable<EdmProperty> GetSimpleProperties(EntityType type)
     {
-        return type.Properties.Where(p => p.TypeUsage.EdmType is SimpleType && p.DeclaringType == type);
+        return type.Properties.Where(p => p.TypeUsage.EdmType is SimpleType && p.PropertyType == type);
     }
     
     public IEnumerable<EdmProperty> GetSimpleProperties(ComplexType type)
     {
-        return type.Properties.Where(p => p.TypeUsage.EdmType is SimpleType && p.DeclaringType == type);
+        return type.Properties.Where(p => p.TypeUsage.EdmType is SimpleType && p.PropertyType == type);
     }
     
     public IEnumerable<EdmProperty> GetComplexProperties(EntityType type)
     {
-        return type.Properties.Where(p => p.TypeUsage.EdmType is ComplexType && p.DeclaringType == type);
+        return type.Properties.Where(p => p.TypeUsage.EdmType is ComplexType && p.PropertyType == type);
     }
     
     public IEnumerable<EdmProperty> GetComplexProperties(ComplexType type)
     {
-        return type.Properties.Where(p => p.TypeUsage.EdmType is ComplexType && p.DeclaringType == type);
+        return type.Properties.Where(p => p.TypeUsage.EdmType is ComplexType && p.PropertyType == type);
     }
 
     public IEnumerable<EdmProperty> GetPropertiesWithDefaultValues(EntityType type)
     {
-        return type.Properties.Where(p => p.TypeUsage.EdmType is SimpleType && p.DeclaringType == type && p.DefaultValue != null);
+        return type.Properties.Where(p => p.TypeUsage.EdmType is SimpleType && p.PropertyType == type && p.DefaultValue != null);
     }
     
     public IEnumerable<EdmProperty> GetPropertiesWithDefaultValues(ComplexType type)
     {
-        return type.Properties.Where(p => p.TypeUsage.EdmType is SimpleType && p.DeclaringType == type && p.DefaultValue != null);
+        return type.Properties.Where(p => p.TypeUsage.EdmType is SimpleType && p.PropertyType == type && p.DefaultValue != null);
     }
 
     public IEnumerable<NavigationProperty> GetNavigationProperties(EntityType type)
     {
-        return type.NavigationProperties.Where(np => np.DeclaringType == type);
+        return type.NavigationProperties.Where(np => np.PropertyType == type);
     }
     
     public IEnumerable<NavigationProperty> GetCollectionNavigationProperties(EntityType type)
     {
-        return type.NavigationProperties.Where(np => np.DeclaringType == type && np.ToEndMember.RelationshipMultiplicity == RelationshipMultiplicity.Many);
+        return type.NavigationProperties.Where(np => np.PropertyType == type && np.ToEndMember.RelationshipMultiplicity == RelationshipMultiplicity.Many);
     }
     
     public FunctionParameter GetReturnParameter(EdmFunction edmFunction)

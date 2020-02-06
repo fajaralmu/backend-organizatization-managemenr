@@ -20,13 +20,18 @@ namespace BackendOrganizationManagement.Models
         {
             this.members = new HashSet<member>();
         }
-    
+
+        [Column]
         public string name { get; set; }
+        [Column]
         public int section_id { get; set; }
+        [Column]
         public Nullable<int> parent_position_id { get; set; }
+        [Column]
         public Nullable<System.DateTime> created_date { get; set; }
 
         [Id]
+        [Column]
         public int id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

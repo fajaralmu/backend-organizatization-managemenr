@@ -10,9 +10,14 @@ namespace OrgWebMvc.Main.Util
         /**
             write debug
         */
-        public static void Debug(object Obj, String value)
+        public static void Debug(object Obj,params String[] value)
         {
-            System.Diagnostics.Debug.WriteLine("_____" + Obj.GetType().Name + " : " + value);
+            string finalValue = "";
+            foreach (string val in value)
+            {
+                finalValue +=" "+ val;
+            }
+            System.Diagnostics.Debug.WriteLine("_____" + Obj.GetType().Name + " : " + finalValue);
         }
     }
 }

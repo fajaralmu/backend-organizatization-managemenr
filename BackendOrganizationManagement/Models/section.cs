@@ -21,14 +21,21 @@ namespace BackendOrganizationManagement.Models
             this.positions = new HashSet<position>();
             this.programs = new HashSet<program>();
         }
-    
+
+        [Column]
         public string name { get; set; }
+        [Column]
         public int division_id { get; set; }
+        [Column]
         public Nullable<int> parent_section_id { get; set; }
+        [Column]
         public Nullable<System.DateTime> created_date { get; set; }
 
         [Id]
+        [Column]
         public int id { get; set; }
+
+
         [JoinColumn(Name = "division_id")]
         public virtual division division { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

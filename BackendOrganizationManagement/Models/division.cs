@@ -21,11 +21,16 @@ namespace BackendOrganizationManagement.Models
             this.sections = new HashSet<section>();
         }
     
+        [Column]
         public string name { get; set; }
+        [Column]
         public string description { get; set; }
+        [Column]
         public int institution_id { get; set; }
+        [Column]
         public Nullable<System.DateTime> created_date { get; set; }
         [Id]
+        [Column]
         public int id { get; set; }
     
         [JoinColumn(Name= "institution_id")]

@@ -15,12 +15,17 @@ namespace BackendOrganizationManagement.Models
     [CustomModel]
     public partial class member : Main.Dto.BaseEntity
     {
+        [Column]
         public string name { get; set; }
-        public string description { get; set; }
+        [Column]
+         public string description { get; set; }
+        [Column]
         public Nullable<int> position_id { get; set; }
+        [Column]
         public Nullable<System.DateTime> created_date { get; set; }
 
         [Id]
+        [Column]
         public int id { get; set; }
         [JoinColumn(Name = "position_id")] 
         public virtual position position { get; set; }

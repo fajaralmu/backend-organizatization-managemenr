@@ -15,15 +15,23 @@ namespace BackendOrganizationManagement.Models
     [CustomModel]
     public partial class post : Main.Dto.BaseEntity
     {
+        [Column]
         public string name { get; set; }
+        [Column]
         public string body { get; set; }
+        [Column]
         public Nullable<int> post_id { get; set; }
+        [Column]
         public int user_id { get; set; }
+        [Column]
         public Nullable<int> type { get; set; }
+        [Column]
         public Nullable<System.DateTime> date { get; set; }
+        [Column]
         public Nullable<System.DateTime> created_date { get; set; }
 
         [Id]
+        [Column]
         public int id { get; set; }
 
         public string title { get; set; }

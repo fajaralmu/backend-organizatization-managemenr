@@ -2,6 +2,7 @@
 using BackendOrganizationManagement.Main.Service;
 using BackendOrganizationManagement.Main.Util;
 using BackendOrganizationManagement.Models;
+using OrgWebMvc.Main.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,15 @@ namespace BackendOrganizationManagement.Main.Handler
 
         }
 
+
+        void Debug(string message)
+        {
+            DebugConsole.Debug(this, message);
+        }
+
         public WebResponse addEntity(WebRequest request, HttpRequest servletRequest, bool newRecord)
         {
-
+            Debug("addEntity: " + request);
             switch (request.entity.ToLower())
             {
                 case "user":
@@ -91,34 +98,42 @@ namespace BackendOrganizationManagement.Main.Handler
             {
                 case "user":
                     entityClass = typeof(user);
+                    this.baseService = new UserService(); 
                     break;
 
                 case "division":
                     entityClass = typeof(division);
+                    this.baseService = new DivisionService();
                     break;
 
                 case "event":
                     entityClass = typeof(@event);
+                    this.baseService = new EventService();
                     break;
 
                 case "position":
                     entityClass = typeof(position);
+                    this.baseService = new PositionService();
                     break;
 
                 case "post":
                     entityClass = typeof(post);
+                    this.baseService = new PostService();
                     break;
 
                 case "program":
                     entityClass = typeof(program);
+                    this.baseService = new ProgramService();
                     break;
 
                 case "section":
                     entityClass = typeof(section);
+                    this.baseService = new SectionService();
                     break;
 
                 case "member":
                     entityClass = typeof(member);
+                    this.baseService = new MemberService();
                     break;
 
             }
@@ -130,7 +145,7 @@ namespace BackendOrganizationManagement.Main.Handler
             int count = 0;
 
             WebResponse response = WebResponse.success();
-
+            response.entities = entities;
             return response;
         }
 
@@ -159,9 +174,9 @@ namespace BackendOrganizationManagement.Main.Handler
             String filterSQL = withFilteredPropertyInfo ? createFilterSQL(entityClass, filter.fieldsFilter, exacts)
                     : "";
             String joinSql = createLeftJoinSQL(entityClass);
-            String sql = "select  `" + tableName + "`.* from `" + tableName + "` " + joinSql + " " + filterSQL + orderSQL
+            String sql = "select  [" + tableName + "].* from [" + tableName + "] " + joinSql + " " + filterSQL + orderSQL
                     + limitOffsetSQL;
-            String sqlCount = "select COUNT(*) from `" + tableName + "` " + joinSql + " " + filterSQL;
+            String sqlCount = "select COUNT(*) from [" + tableName + "] " + joinSql + " " + filterSQL;
             return new String[] { sql, sqlCount };
         }
 
@@ -191,6 +206,10 @@ namespace BackendOrganizationManagement.Main.Handler
 
         private static String getColumnName(PropertyInfo PropertyInfo)
         {
+            if(null == PropertyInfo)
+            {
+                return null;
+            }
             return PropertyInfo.Name;
         }
 
@@ -206,11 +225,11 @@ namespace BackendOrganizationManagement.Main.Handler
                 if (Attribute != null)
                 {
                     joinColumn = (JoinColumn)Attribute;
-                    Type PropertyInfoClass = PropertyInfo.GetType();
-                    String foreignID = joinColumn.Name;
-                    String joinTableName = PropertyInfoClass.Name;
+                    Type PropertyInfoClass = PropertyInfo.PropertyType;
+                    string foreignID = joinColumn.Name;
+                    string joinTableName = PropertyInfoClass.Name;
                     PropertyInfo idForeignPropertyInfo = EntityUtil.getIdField(PropertyInfoClass);
-                    String sqlItem = " LEFT JOIN `$JOIN_TABLE` ON  `$JOIN_TABLE`.`$JOIN_ID` = `$ENTITY_TABLE`.`$FOREIGN_ID` ";
+                    String sqlItem = " LEFT JOIN [$JOIN_TABLE] ON  [$JOIN_TABLE].[$JOIN_ID] = [$ENTITY_TABLE].[$FOREIGN_ID] ";
                     sqlItem = sqlItem.Replace("$FOREIGN_ID", foreignID).Replace("$JOIN_TABLE", joinTableName)
                                             .Replace("$ENTITY_TABLE", tableName).Replace("$JOIN_ID", getColumnName(idForeignPropertyInfo));
                     sql += sqlItem;
@@ -260,7 +279,7 @@ namespace BackendOrganizationManagement.Main.Handler
                 {
                     String PropertyInfoName = key;
                     String mode = "DAY";
-                    String sqlitem = " $MODE(`$TABLE_NAME`.`$COLUMN_NAME`) = $VALUE ";
+                    String sqlitem = " $MODE([$TABLE_NAME].[$COLUMN_NAME]) = $VALUE ";
                     if (dayFilter)
                     {
                         PropertyInfoName = key.Replace("-day", "");
@@ -299,10 +318,10 @@ namespace BackendOrganizationManagement.Main.Handler
 
                     columnName = prop2.Name;
 
-                String sqlItem = " `" + tableName + "`.`" + columnName + "` ";
+                String sqlItem = " [" + tableName + "].[" + columnName + "] ";
                 if (prop2.GetCustomAttribute(typeof(JoinColumn)) != null || isMultiKey)
                 {
-                    Type PropertyInfoClass = prop2.GetType();
+                    Type PropertyInfoClass = prop2.PropertyType;
                     JoinColumn joinCol = (JoinColumn)prop2.GetCustomAttribute(typeof(JoinColumn));
                     String joinTableName = PropertyInfoClass.Name;
 
@@ -319,7 +338,7 @@ namespace BackendOrganizationManagement.Main.Handler
                         {
                             PropertyInfoColumnName = key;
                         }
-                        sqlItem = " `" + joinTableName + "`.`" + PropertyInfoColumnName + "` ";
+                        sqlItem = " [" + joinTableName + "].[" + PropertyInfoColumnName + "] ";
                     }
                     catch (Exception e)
                     {
@@ -370,7 +389,7 @@ namespace BackendOrganizationManagement.Main.Handler
             String tableName = entityClass.Name;
             if (idPropertyInfo.GetCustomAttribute(typeof(JoinColumn)) != null)
             {
-                Type PropertyInfoClass = idPropertyInfo.GetType();
+                Type PropertyInfoClass = idPropertyInfo.PropertyType;
                 tableName = (PropertyInfoClass).Name;
 
                 try
@@ -378,7 +397,10 @@ namespace BackendOrganizationManagement.Main.Handler
                     JoinColumn formPropertyInfo = (JoinColumn)idPropertyInfo.GetCustomAttribute(typeof(JoinColumn));
                     PropertyInfo PropertyInfoPropertyInfo = PropertyInfoClass.GetProperty(formPropertyInfo.Converter);
                     columnName = getColumnName(PropertyInfoPropertyInfo);
-
+                    if(null == columnName)
+                    {
+                        return null;
+                    }
                 }
                 catch (Exception e)
                 {
@@ -389,7 +411,7 @@ namespace BackendOrganizationManagement.Main.Handler
                 columnName = orderBy;
             }
 
-            String orderPropertyInfo = "`" + tableName + "`.`" + columnName + "`";
+            String orderPropertyInfo = "[" + tableName + "].[" + columnName + "]";
             return " ORDER BY " + orderPropertyInfo + " " + orderType;
         }
 

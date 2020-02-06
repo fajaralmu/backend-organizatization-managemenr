@@ -29,15 +29,7 @@ namespace BackendOrganizationManagement.Web
             {
                 if (Request.ContentType.Equals("application/json"))
                 {
-                    var jsonString = String.Empty;
-
-                    Request.InputStream.Position = 0;
-                    using (var inputStream = new StreamReader(Request.InputStream))
-                    {
-                        jsonString = inputStream.ReadToEnd();
-                    }
-
-                    webRequest = (WebRequest)JsonConvert.DeserializeObject(jsonString, typeof(WebRequest));
+                    webRequest = RestUtil.readRequestBody(Request);
                 }
                 if (BASE_PATH.Equals(RawUrl) == false)
                 {

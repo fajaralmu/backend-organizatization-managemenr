@@ -34,7 +34,7 @@ namespace BackendOrganizationManagement.Main.Util
 
         public static PropertyInfo getIdField(Type clazz)
         {
-            if (clazz.GetCustomAttribute(typeof(Id)) == null)
+            if (clazz.GetCustomAttribute(typeof(CustomModel)) == null)
             {
                 return null;
             }

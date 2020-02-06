@@ -22,11 +22,15 @@ namespace BackendOrganizationManagement.Models
             this.users = new HashSet<user>();
         }
     
+       [Column]
         public string name { get; set; }
+        [Column]
         public string description { get; set; }
+        [Column]
         public Nullable<System.DateTime> created_date { get; set; }
 
         [Id]
+        [Column]
         public int id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
