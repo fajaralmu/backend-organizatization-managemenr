@@ -137,6 +137,7 @@ namespace BackendOrganizationManagement.Main.Service
                 section section = u.section;
                 categoryList.Add(section);
             }
+            count = countSQL(sql, dbEntities.sections);
 
             return categoryList;
         }

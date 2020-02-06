@@ -135,7 +135,7 @@ namespace BackendOrganizationManagement.Main.Service
                 division division = u.division;
                 categoryList.Add(division);
             }
-
+            count = countSQL(sql, dbEntities.divisions);
             return categoryList;
         }
 

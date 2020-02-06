@@ -141,11 +141,18 @@ namespace BackendOrganizationManagement.Main.Handler
             String[] sqlListAndCount = generateSqlByFilter(filter, entityClass);
             String sql = sqlListAndCount[0];
             String sqlCount = sqlListAndCount[1];
-            List<BaseEntity> entities = getEntitiesBySql(sql, entityClass);
-            int count = 0;
+
+            int offset = filter.page * filter.limit;
+            bool withLimit = filter.limit > 0;
+
+            int limit = withLimit ? filter.limit : 0;
+
+            List<BaseEntity> entities = getEntitiesBySql(sql, entityClass, limit, offset);
+            int count = baseService.count; 
 
             WebResponse response = WebResponse.success();
             response.entities = entities;
+            response.totalData = count;
             return response;
         }
 
@@ -170,7 +177,7 @@ namespace BackendOrganizationManagement.Main.Handler
             String orderBy = filter.orderBy;
             String tableName = entityClass.Name;
             string orderSQL = withOrder ? generateOrderSql(entityClass, orderType, orderBy) : "";
-            String limitOffsetSQL = withLimit ? " LIMIT " + filter.limit + " OFFSET " + offset : "";
+            String limitOffsetSQL = null;// withLimit ? " LIMIT " + filter.limit + " OFFSET " + offset : "";
             String filterSQL = withFilteredPropertyInfo ? createFilterSQL(entityClass, filter.fieldsFilter, exacts)
                     : "";
             String joinSql = createLeftJoinSQL(entityClass);
@@ -180,9 +187,9 @@ namespace BackendOrganizationManagement.Main.Handler
             return new String[] { sql, sqlCount };
         }
 
-        public List<BaseEntity> getEntitiesBySql(String sql, Type entityClass)
+        public List<BaseEntity> getEntitiesBySql(String sql, Type entityClass,int limit, int offset)
         {
-            List<object> entities = baseService.SqlList(sql);
+            List<object> entities = baseService.SqlList(sql,limit,offset);
             //return EntityUtil.validateDefaultValue(entities);
             List<BaseEntity> result = new List<BaseEntity>();
             foreach (object Object in entities)

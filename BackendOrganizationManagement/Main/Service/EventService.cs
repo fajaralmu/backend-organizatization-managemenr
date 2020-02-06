@@ -129,7 +129,7 @@ namespace BackendOrganizationManagement.Main.Service
                 @event @event = u.@event;
                 categoryList.Add(@event);
             }
-
+            count = countSQL(sql, dbEntities.events);
             return categoryList;
         }
 

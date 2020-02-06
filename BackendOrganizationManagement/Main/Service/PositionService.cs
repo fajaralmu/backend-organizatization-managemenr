@@ -130,7 +130,7 @@ namespace BackendOrganizationManagement.Main.Service
                 position position = u.position;
                 categoryList.Add(position);
             }
-
+            count = countSQL(sql, dbEntities.positions);
             return categoryList;
         }
 

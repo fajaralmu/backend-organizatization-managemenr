@@ -131,7 +131,7 @@ namespace BackendOrganizationManagement.Main.Service
                 member member = u.member;
                 categoryList.Add(member);
             }
-
+            count = countSQL(sql, dbEntities.members);
             return categoryList;
         }
 

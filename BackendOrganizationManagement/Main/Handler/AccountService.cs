@@ -39,7 +39,7 @@ namespace BackendOrganizationManagement.Main.Handler
 
         internal WebResponse DoLogout(HttpRequest request, WebRequest webRequest)
         {
-            throw new NotImplementedException();
+            return WebResponse.success();
         }
     }
 }

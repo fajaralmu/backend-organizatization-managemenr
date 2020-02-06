@@ -156,7 +156,7 @@ namespace BackendOrganizationManagement.Main.Service
 
                 return categoryList;
             }
-
+            count = countSQL(sql, dbEntities.posts);
             return new List<object>();
 
         }

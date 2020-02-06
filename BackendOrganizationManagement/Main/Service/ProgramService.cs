@@ -128,7 +128,7 @@ namespace BackendOrganizationManagement.Main.Service
                 program program = u.program;
                 categoryList.Add(program);
             }
-
+            count = countSQL(sql, dbEntities.programs);
             return categoryList;
         }
 

@@ -151,7 +151,7 @@ namespace BackendOrganizationManagement.Main.Service
                 user User = u.user;
                 categoryList.Add(User);
             }
-
+            count = countSQL(sql, dbEntities.users);
             return categoryList;
         }
 
