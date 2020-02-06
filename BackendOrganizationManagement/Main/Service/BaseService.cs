@@ -31,8 +31,8 @@ namespace BackendOrganizationManagement.Main.Service
         public abstract BaseEntity Add(object Obj)
         ;
 
-        public abstract List<object> SearchAdvanced(Dictionary<string, object> Params, int limit = 0, int offset = 0, bool updateCount = true)
-       ;
+        public virtual List<object> SearchAdvanced(Dictionary<string, object> Params, int limit = 0, int offset = 0, bool updateCount = true)
+        { return null; }
 
         public abstract int countSQL(string sql, object dbSet)
         ;
