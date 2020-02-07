@@ -5,9 +5,6 @@
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
-
-
-// Bivisi BPD
 //------------------------------------------------------------------------------
 
 namespace BackendOrganizationManagement.Models
@@ -17,26 +14,19 @@ namespace BackendOrganizationManagement.Models
     using System;
     using System.Collections.Generic;
     [CustomModel]
-    [AdditionalFilter(join = joinSql, filter = filterSql)]
-    public partial class section : Main.Dto.BaseEntity
+    public partial class institution : Main.Dto.BaseEntity
     {
-        const string joinSql = "  ";
-        const string filterSql = "division.id=${filterId}";
-
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public section()
+        public institution()
         {
-            this.members = new HashSet<member>();
-            this.programs = new HashSet<program>();
+            this.divisions = new HashSet<division>();
+            this.users = new HashSet<user>();
         }
-
-        [Column]
+    
+       [Column]
         public string name { get; set; }
         [Column]
-        public int division_id { get; set; }
-        [Column]
-        public Nullable<int> parent_section_id { get; set; }
+        public string description { get; set; }
         [Column]
         public Nullable<System.DateTime> created_date { get; set; }
 
@@ -44,13 +34,11 @@ namespace BackendOrganizationManagement.Models
         [Column]
         public int id { get; set; }
 
-
-        [JoinColumn(Name = "division_id", Converter = "name")]
-        public virtual division division { get; set; }
-         [JsonIgnore]
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<program> programs { get; set; }
+        public virtual ICollection<division> divisions { get; set; }
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<member> members { get; set; }
+        public virtual ICollection<user> users { get; set; }
     }
 }

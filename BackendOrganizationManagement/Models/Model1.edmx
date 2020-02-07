@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="mpi_dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="mpi_dbEntities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="division">
           <Key>
             <PropertyRef Name="id" />
@@ -48,16 +48,17 @@
           <Property Name="position_id" Type="int" />
           <Property Name="created_date" Type="datetime" />
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="section_id" Type="int" />
         </EntityType>
         <EntityType Name="position">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="section_id" Type="int" Nullable="false" />
           <Property Name="parent_position_id" Type="int" />
           <Property Name="created_date" Type="datetime" />
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="post">
           <Key>
@@ -142,14 +143,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="position_section_FK">
-          <End Role="section" Type="Self.section" Multiplicity="1" />
-          <End Role="position" Type="Self.position" Multiplicity="*" />
+        <Association Name="member_section_FK">
+          <End Role="section" Type="Self.section" Multiplicity="0..1" />
+          <End Role="member" Type="Self.member" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="section">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="position">
+            <Dependent Role="member">
               <PropertyRef Name="section_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -202,7 +203,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="mpi_dbModelStoreContainer">
+        <EntityContainer Name="mpi_dbEntitiesStoreContainer">
           <EntitySet Name="division" EntityType="Self.division" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="event" EntityType="Self.event" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="institution" EntityType="Self.institution" Schema="dbo" store:Type="Tables" />
@@ -224,9 +225,9 @@
             <End Role="position" EntitySet="position" />
             <End Role="member" EntitySet="member" />
           </AssociationSet>
-          <AssociationSet Name="position_section_FK" Association="Self.position_section_FK">
+          <AssociationSet Name="member_section_FK" Association="Self.member_section_FK">
             <End Role="section" EntitySet="section" />
-            <End Role="position" EntitySet="position" />
+            <End Role="member" EntitySet="member" />
           </AssociationSet>
           <AssociationSet Name="post_user_FK" Association="Self.post_user_FK">
             <End Role="user" EntitySet="user" />
@@ -249,7 +250,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="mpi_dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="mpi_dbEntities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="division">
           <Key>
             <PropertyRef Name="id" />
@@ -298,19 +299,20 @@
           <Property Name="position_id" Type="Int32" />
           <Property Name="created_date" Type="DateTime" Precision="3" />
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="section_id" Type="Int32" />
           <NavigationProperty Name="position" Relationship="Self.member_position_FK" FromRole="member" ToRole="position" />
+          <NavigationProperty Name="section" Relationship="Self.member_section_FK" FromRole="member" ToRole="section" />
         </EntityType>
         <EntityType Name="position">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="section_id" Type="Int32" Nullable="false" />
           <Property Name="parent_position_id" Type="Int32" />
           <Property Name="created_date" Type="DateTime" Precision="3" />
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="members" Relationship="Self.member_position_FK" FromRole="position" ToRole="member" />
-          <NavigationProperty Name="section" Relationship="Self.position_section_FK" FromRole="position" ToRole="section" />
         </EntityType>
         <EntityType Name="post">
           <Key>
@@ -349,7 +351,7 @@
           <Property Name="created_date" Type="DateTime" Precision="3" />
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="division" Relationship="Self.section_division_FK" FromRole="section" ToRole="division" />
-          <NavigationProperty Name="positions" Relationship="Self.position_section_FK" FromRole="section" ToRole="position" />
+          <NavigationProperty Name="members" Relationship="Self.member_section_FK" FromRole="section" ToRole="member" />
           <NavigationProperty Name="programs" Relationship="Self.program_section_FK" FromRole="section" ToRole="program" />
         </EntityType>
         <EntityType Name="user">
@@ -427,14 +429,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="position_section_FK">
-          <End Role="section" Type="Self.section" Multiplicity="1" />
-          <End Role="position" Type="Self.position" Multiplicity="*" />
+        <Association Name="member_section_FK">
+          <End Role="section" Type="Self.section" Multiplicity="0..1" />
+          <End Role="member" Type="Self.member" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="section">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="position">
+            <Dependent Role="member">
               <PropertyRef Name="section_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -463,7 +465,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="mpi_dbEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="mpi_dbEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="divisions" EntityType="Self.division" />
           <EntitySet Name="events" EntityType="Self.event" />
           <EntitySet Name="institutions" EntityType="Self.institution" />
@@ -493,9 +495,9 @@
             <End Role="position" EntitySet="positions" />
             <End Role="member" EntitySet="members" />
           </AssociationSet>
-          <AssociationSet Name="position_section_FK" Association="Self.position_section_FK">
+          <AssociationSet Name="member_section_FK" Association="Self.member_section_FK">
             <End Role="section" EntitySet="sections" />
-            <End Role="position" EntitySet="positions" />
+            <End Role="member" EntitySet="members" />
           </AssociationSet>
           <AssociationSet Name="post_user_FK" Association="Self.post_user_FK">
             <End Role="user" EntitySet="users" />
@@ -511,9 +513,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="mpi_dbModelStoreContainer" CdmEntityContainer="mpi_dbEntities">
+        <EntityContainerMapping StorageEntityContainer="mpi_dbEntitiesStoreContainer" CdmEntityContainer="mpi_dbEntities1">
           <EntitySetMapping Name="divisions">
-            <EntityTypeMapping TypeName="mpi_dbModel.division">
+            <EntityTypeMapping TypeName="mpi_dbEntities.division">
               <MappingFragment StoreEntitySet="division">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="description" ColumnName="description" />
@@ -524,7 +526,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="events">
-            <EntityTypeMapping TypeName="mpi_dbModel.event">
+            <EntityTypeMapping TypeName="mpi_dbEntities.event">
               <MappingFragment StoreEntitySet="event">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="location" ColumnName="location" />
@@ -540,7 +542,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="institutions">
-            <EntityTypeMapping TypeName="mpi_dbModel.institution">
+            <EntityTypeMapping TypeName="mpi_dbEntities.institution">
               <MappingFragment StoreEntitySet="institution">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="description" ColumnName="description" />
@@ -550,29 +552,30 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="members">
-            <EntityTypeMapping TypeName="mpi_dbModel.member">
+            <EntityTypeMapping TypeName="mpi_dbEntities.member">
               <MappingFragment StoreEntitySet="member">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="position_id" ColumnName="position_id" />
                 <ScalarProperty Name="created_date" ColumnName="created_date" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="section_id" ColumnName="section_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="positions">
-            <EntityTypeMapping TypeName="mpi_dbModel.position">
+            <EntityTypeMapping TypeName="mpi_dbEntities.position">
               <MappingFragment StoreEntitySet="position">
                 <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="section_id" ColumnName="section_id" />
                 <ScalarProperty Name="parent_position_id" ColumnName="parent_position_id" />
                 <ScalarProperty Name="created_date" ColumnName="created_date" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="description" ColumnName="description" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="posts">
-            <EntityTypeMapping TypeName="mpi_dbModel.post">
+            <EntityTypeMapping TypeName="mpi_dbEntities.post">
               <MappingFragment StoreEntitySet="post">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="body" ColumnName="body" />
@@ -587,7 +590,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="programs">
-            <EntityTypeMapping TypeName="mpi_dbModel.program">
+            <EntityTypeMapping TypeName="mpi_dbEntities.program">
               <MappingFragment StoreEntitySet="program">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="description" ColumnName="description" />
@@ -598,7 +601,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sections">
-            <EntityTypeMapping TypeName="mpi_dbModel.section">
+            <EntityTypeMapping TypeName="mpi_dbEntities.section">
               <MappingFragment StoreEntitySet="section">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="division_id" ColumnName="division_id" />
@@ -609,7 +612,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="users">
-            <EntityTypeMapping TypeName="mpi_dbModel.user">
+            <EntityTypeMapping TypeName="mpi_dbEntities.user">
               <MappingFragment StoreEntitySet="user">
                 <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="name" ColumnName="name" />

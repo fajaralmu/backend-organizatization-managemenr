@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="mpi_dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+<Schema Namespace="mpi_dbEntities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityType Name="division">
     <Key>
       <PropertyRef Name="id" />
@@ -48,19 +48,20 @@
     <Property Name="position_id" Type="Int32" />
     <Property Name="created_date" Type="DateTime" Precision="3" />
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="section_id" Type="Int32" />
     <NavigationProperty Name="position" Relationship="Self.member_position_FK" FromRole="member" ToRole="position" />
+    <NavigationProperty Name="section" Relationship="Self.member_section_FK" FromRole="member" ToRole="section" />
   </EntityType>
   <EntityType Name="position">
     <Key>
       <PropertyRef Name="id" />
     </Key>
     <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="section_id" Type="Int32" Nullable="false" />
     <Property Name="parent_position_id" Type="Int32" />
     <Property Name="created_date" Type="DateTime" Precision="3" />
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="members" Relationship="Self.member_position_FK" FromRole="position" ToRole="member" />
-    <NavigationProperty Name="section" Relationship="Self.position_section_FK" FromRole="position" ToRole="section" />
   </EntityType>
   <EntityType Name="post">
     <Key>
@@ -99,7 +100,7 @@
     <Property Name="created_date" Type="DateTime" Precision="3" />
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <NavigationProperty Name="division" Relationship="Self.section_division_FK" FromRole="section" ToRole="division" />
-    <NavigationProperty Name="positions" Relationship="Self.position_section_FK" FromRole="section" ToRole="position" />
+    <NavigationProperty Name="members" Relationship="Self.member_section_FK" FromRole="section" ToRole="member" />
     <NavigationProperty Name="programs" Relationship="Self.program_section_FK" FromRole="section" ToRole="program" />
   </EntityType>
   <EntityType Name="user">
@@ -177,14 +178,14 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="position_section_FK">
-    <End Role="section" Type="Self.section" Multiplicity="1" />
-    <End Role="position" Type="Self.position" Multiplicity="*" />
+  <Association Name="member_section_FK">
+    <End Role="section" Type="Self.section" Multiplicity="0..1" />
+    <End Role="member" Type="Self.member" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="section">
         <PropertyRef Name="id" />
       </Principal>
-      <Dependent Role="position">
+      <Dependent Role="member">
         <PropertyRef Name="section_id" />
       </Dependent>
     </ReferentialConstraint>
@@ -213,7 +214,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="mpi_dbEntities" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="mpi_dbEntities1" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="divisions" EntityType="Self.division" />
     <EntitySet Name="events" EntityType="Self.event" />
     <EntitySet Name="institutions" EntityType="Self.institution" />
@@ -243,9 +244,9 @@
       <End Role="position" EntitySet="positions" />
       <End Role="member" EntitySet="members" />
     </AssociationSet>
-    <AssociationSet Name="position_section_FK" Association="Self.position_section_FK">
+    <AssociationSet Name="member_section_FK" Association="Self.member_section_FK">
       <End Role="section" EntitySet="sections" />
-      <End Role="position" EntitySet="positions" />
+      <End Role="member" EntitySet="members" />
     </AssociationSet>
     <AssociationSet Name="post_user_FK" Association="Self.post_user_FK">
       <End Role="user" EntitySet="users" />

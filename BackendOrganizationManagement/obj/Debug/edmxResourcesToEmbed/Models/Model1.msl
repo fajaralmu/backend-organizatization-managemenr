@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="mpi_dbModelStoreContainer" CdmEntityContainer="mpi_dbEntities">
+  <EntityContainerMapping StorageEntityContainer="mpi_dbEntitiesStoreContainer" CdmEntityContainer="mpi_dbEntities1">
     <EntitySetMapping Name="divisions">
-      <EntityTypeMapping TypeName="mpi_dbModel.division">
+      <EntityTypeMapping TypeName="mpi_dbEntities.division">
         <MappingFragment StoreEntitySet="division">
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="description" ColumnName="description" />
@@ -13,7 +13,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="events">
-      <EntityTypeMapping TypeName="mpi_dbModel.event">
+      <EntityTypeMapping TypeName="mpi_dbEntities.event">
         <MappingFragment StoreEntitySet="event">
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="location" ColumnName="location" />
@@ -29,7 +29,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="institutions">
-      <EntityTypeMapping TypeName="mpi_dbModel.institution">
+      <EntityTypeMapping TypeName="mpi_dbEntities.institution">
         <MappingFragment StoreEntitySet="institution">
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="description" ColumnName="description" />
@@ -39,29 +39,30 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="members">
-      <EntityTypeMapping TypeName="mpi_dbModel.member">
+      <EntityTypeMapping TypeName="mpi_dbEntities.member">
         <MappingFragment StoreEntitySet="member">
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="description" ColumnName="description" />
           <ScalarProperty Name="position_id" ColumnName="position_id" />
           <ScalarProperty Name="created_date" ColumnName="created_date" />
           <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="section_id" ColumnName="section_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="positions">
-      <EntityTypeMapping TypeName="mpi_dbModel.position">
+      <EntityTypeMapping TypeName="mpi_dbEntities.position">
         <MappingFragment StoreEntitySet="position">
           <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="section_id" ColumnName="section_id" />
           <ScalarProperty Name="parent_position_id" ColumnName="parent_position_id" />
           <ScalarProperty Name="created_date" ColumnName="created_date" />
           <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="description" ColumnName="description" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="posts">
-      <EntityTypeMapping TypeName="mpi_dbModel.post">
+      <EntityTypeMapping TypeName="mpi_dbEntities.post">
         <MappingFragment StoreEntitySet="post">
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="body" ColumnName="body" />
@@ -76,7 +77,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="programs">
-      <EntityTypeMapping TypeName="mpi_dbModel.program">
+      <EntityTypeMapping TypeName="mpi_dbEntities.program">
         <MappingFragment StoreEntitySet="program">
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="description" ColumnName="description" />
@@ -87,7 +88,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="sections">
-      <EntityTypeMapping TypeName="mpi_dbModel.section">
+      <EntityTypeMapping TypeName="mpi_dbEntities.section">
         <MappingFragment StoreEntitySet="section">
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="division_id" ColumnName="division_id" />
@@ -98,7 +99,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="users">
-      <EntityTypeMapping TypeName="mpi_dbModel.user">
+      <EntityTypeMapping TypeName="mpi_dbEntities.user">
         <MappingFragment StoreEntitySet="user">
           <ScalarProperty Name="username" ColumnName="username" />
           <ScalarProperty Name="name" ColumnName="name" />

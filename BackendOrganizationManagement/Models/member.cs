@@ -13,21 +13,25 @@ namespace BackendOrganizationManagement.Models
     using System;
     using System.Collections.Generic;
     [CustomModel]
-    public partial class member : Main.Dto.BaseEntity
+    public partial class member:BaseEntity
     {
         [Column]
         public string name { get; set; }
         [Column]
-         public string description { get; set; }
+        public string description { get; set; }
         [Column]
-        public Nullable<int> position_id { get; set; }
+        public int position_id { get; set; }
         [Column]
         public Nullable<System.DateTime> created_date { get; set; }
-
-        [Id]
         [Column]
+        [Id]
         public int id { get; set; }
-        [JoinColumn(Name = "position_id")] 
+        [Column]
+        public int section_id { get; set; }
+
+        [JoinColumn(Name = "position_id", Converter = "name")]
         public virtual position position { get; set; }
+        [JoinColumn(Name = "section_id", Converter = "name")]
+        public virtual section section { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="mpi_dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="mpi_dbEntities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="division">
     <Key>
       <PropertyRef Name="id" />
@@ -43,16 +43,17 @@
     <Property Name="position_id" Type="int" />
     <Property Name="created_date" Type="datetime" />
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="section_id" Type="int" />
   </EntityType>
   <EntityType Name="position">
     <Key>
       <PropertyRef Name="id" />
     </Key>
     <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
-    <Property Name="section_id" Type="int" Nullable="false" />
     <Property Name="parent_position_id" Type="int" />
     <Property Name="created_date" Type="datetime" />
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="description" Type="varchar" MaxLength="500" />
   </EntityType>
   <EntityType Name="post">
     <Key>
@@ -137,14 +138,14 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="position_section_FK">
-    <End Role="section" Type="Self.section" Multiplicity="1" />
-    <End Role="position" Type="Self.position" Multiplicity="*" />
+  <Association Name="member_section_FK">
+    <End Role="section" Type="Self.section" Multiplicity="0..1" />
+    <End Role="member" Type="Self.member" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="section">
         <PropertyRef Name="id" />
       </Principal>
-      <Dependent Role="position">
+      <Dependent Role="member">
         <PropertyRef Name="section_id" />
       </Dependent>
     </ReferentialConstraint>
@@ -197,7 +198,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="mpi_dbModelStoreContainer">
+  <EntityContainer Name="mpi_dbEntitiesStoreContainer">
     <EntitySet Name="division" EntityType="Self.division" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="event" EntityType="Self.event" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="institution" EntityType="Self.institution" Schema="dbo" store:Type="Tables" />
@@ -219,9 +220,9 @@
       <End Role="position" EntitySet="position" />
       <End Role="member" EntitySet="member" />
     </AssociationSet>
-    <AssociationSet Name="position_section_FK" Association="Self.position_section_FK">
+    <AssociationSet Name="member_section_FK" Association="Self.member_section_FK">
       <End Role="section" EntitySet="section" />
-      <End Role="position" EntitySet="position" />
+      <End Role="member" EntitySet="member" />
     </AssociationSet>
     <AssociationSet Name="post_user_FK" Association="Self.post_user_FK">
       <End Role="user" EntitySet="user" />

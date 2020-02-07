@@ -10,29 +10,24 @@
 namespace BackendOrganizationManagement.Models
 {
     using Main.Dto;
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     [CustomModel]
-    public partial class position: BaseEntity
+    public partial class member : Main.Dto.BaseEntity
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public position()
-        {
-            this.members = new HashSet<member>();
-        }
         [Column]
         public string name { get; set; }
         [Column]
-        public Nullable<int> parent_position_id { get; set; }
+         public string description { get; set; }
+        [Column]
+        public Nullable<int> position_id { get; set; }
         [Column]
         public Nullable<System.DateTime> created_date { get; set; }
-        [Column][Id]
-        public int id { get; set; }
+
+        [Id]
         [Column]
-        public string description { get; set; }
-        [JsonIgnore]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<member> members { get; set; }
+        public int id { get; set; }
+        [JoinColumn(Name = "position_id")] 
+        public virtual position position { get; set; }
     }
 }

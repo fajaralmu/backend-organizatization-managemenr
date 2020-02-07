@@ -4,24 +4,24 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f2639edf92de429f92a5ae77c09c1995" Name="Diagram1">
-        <EntityTypeShape EntityType="mpi_dbModel.division" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="mpi_dbModel.event" Width="1.5" PointX="9.75" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="mpi_dbModel.institution" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="mpi_dbModel.member" Width="1.5" PointX="9.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="mpi_dbModel.position" Width="1.5" PointX="7.5" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="mpi_dbModel.post" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="mpi_dbModel.program" Width="1.5" PointX="7.5" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="mpi_dbModel.section" Width="1.5" PointX="5.25" PointY="3.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="mpi_dbModel.user" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
-        <AssociationConnector Association="mpi_dbModel.division_institution_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="mpi_dbModel.section_division_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="mpi_dbModel.event_program_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="mpi_dbModel.user_institution_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="mpi_dbModel.member_position_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="mpi_dbModel.position_section_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="mpi_dbModel.post_user_FK" ManuallyRouted="false" />
-        <AssociationConnector Association="mpi_dbModel.program_section_FK" ManuallyRouted="false" />
+      <Diagram DiagramId="8f741d9df5f64f60a322065f2dd07a0e" Name="Diagram1">
+        <EntityTypeShape EntityType="mpi_dbEntities.division" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="mpi_dbEntities.event" Width="1.5" PointX="9.75" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="mpi_dbEntities.institution" Width="1.5" PointX="0.75" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="mpi_dbEntities.member" Width="1.5" PointX="7.5" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="mpi_dbEntities.position" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="mpi_dbEntities.post" Width="1.5" PointX="5.25" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="mpi_dbEntities.program" Width="1.5" PointX="7.5" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="mpi_dbEntities.section" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="mpi_dbEntities.user" Width="1.5" PointX="3" PointY="8.125" IsExpanded="true" />
+        <AssociationConnector Association="mpi_dbEntities.division_institution_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="mpi_dbEntities.section_division_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="mpi_dbEntities.event_program_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="mpi_dbEntities.user_institution_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="mpi_dbEntities.member_position_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="mpi_dbEntities.member_section_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="mpi_dbEntities.post_user_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="mpi_dbEntities.program_section_FK" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

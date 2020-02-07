@@ -5,9 +5,6 @@
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
-
-
-// Bivisi BPD
 //------------------------------------------------------------------------------
 
 namespace BackendOrganizationManagement.Models
@@ -17,40 +14,30 @@ namespace BackendOrganizationManagement.Models
     using System;
     using System.Collections.Generic;
     [CustomModel]
-    [AdditionalFilter(join = joinSql, filter = filterSql)]
-    public partial class section : Main.Dto.BaseEntity
+    public partial class position : Main.Dto.BaseEntity
     {
-        const string joinSql = "  ";
-        const string filterSql = "division.id=${filterId}";
-
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public section()
+        public position()
         {
             this.members = new HashSet<member>();
-            this.programs = new HashSet<program>();
         }
 
         [Column]
         public string name { get; set; }
         [Column]
-        public int division_id { get; set; }
+        public int section_id { get; set; }
         [Column]
-        public Nullable<int> parent_section_id { get; set; }
+        public Nullable<int> parent_position_id { get; set; }
         [Column]
         public Nullable<System.DateTime> created_date { get; set; }
 
         [Id]
         [Column]
         public int id { get; set; }
-
-
-        [JoinColumn(Name = "division_id", Converter = "name")]
-        public virtual division division { get; set; }
-         [JsonIgnore]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<program> programs { get; set; }
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<member> members { get; set; }
+        [JoinColumn(Name = "section_id", Converter = "name")] 
+        public virtual section section { get; set; }
     }
 }

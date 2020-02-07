@@ -30,15 +30,15 @@ namespace BackendOrganizationManagement.Main.Service
         public override BaseEntity Update(object Obj)
         {
             dbEntities = new mpi_dbEntities();
-            member member = (member)Obj;
-            member DBmember = (member)GetById(member.id);
+            member Member = (member)Obj;
+            member DBmember = (member)GetById(Member.id);
             if (DBmember == null)
             {
                 return null;
             }
-            dbEntities.Entry(DBmember).CurrentValues.SetValues(member);
+            dbEntities.Entry(DBmember).CurrentValues.SetValues(Member);
             dbEntities.SaveChanges();
-            return member;
+            return Member;
         }
 
         public override BaseEntity GetById(object Id)

@@ -17,17 +17,12 @@ namespace BackendOrganizationManagement.Models
     using System;
     using System.Collections.Generic;
     [CustomModel]
-    [AdditionalFilter(join = joinSql, filter = filterSql)]
     public partial class section : Main.Dto.BaseEntity
     {
-        const string joinSql = "  ";
-        const string filterSql = "division.id=${filterId}";
-
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public section()
         {
-            this.members = new HashSet<member>();
+            this.positions = new HashSet<position>();
             this.programs = new HashSet<program>();
         }
 
@@ -47,10 +42,11 @@ namespace BackendOrganizationManagement.Models
 
         [JoinColumn(Name = "division_id", Converter = "name")]
         public virtual division division { get; set; }
-         [JsonIgnore]
+        [JsonIgnore]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<position> positions { get; set; }
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<program> programs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<member> members { get; set; }
     }
 }
