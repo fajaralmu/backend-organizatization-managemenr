@@ -13,8 +13,14 @@ namespace BackendOrganizationManagement.Models
     using System;
     using System.Collections.Generic;
     [CustomModel]
+    [AdditionalFilter(join= joinSql, filter =filterSql)]
     public partial class @event : Main.Dto.BaseEntity
     {
+
+        const string joinSql = "   left join [section] ON program.sect_id = [section].id left join division on division.id = [section].division_id";
+        const string filterSql = "division.id=${filterId}";
+
+
         [Column]
         public string name { get; set; }
         [Column]

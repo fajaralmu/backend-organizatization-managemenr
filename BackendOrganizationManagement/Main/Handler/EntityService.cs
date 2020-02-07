@@ -14,12 +14,10 @@ namespace BackendOrganizationManagement.Main.Handler
     class EntityService
     {
         BaseService baseService;
-
+        private SessionService sessionService = new SessionService();
 
         public void init()
-        {
-
-        }
+        { }
 
 
         void Debug(string message)
@@ -62,7 +60,7 @@ namespace BackendOrganizationManagement.Main.Handler
                 case "member":
                     baseService = new MemberService();
                     return saveCommonEntity(request.member, newRecord);
-              
+
             }
 
             return WebResponse.failed();
@@ -90,7 +88,7 @@ namespace BackendOrganizationManagement.Main.Handler
 
         private BaseEntity validateEntity(BaseEntity entity)
         {
-           List<PropertyInfo> props = EntityUtil.getDeclaredField(entity.GetType());
+            List<PropertyInfo> props = EntityUtil.getDeclaredField(entity.GetType());
 
             foreach (PropertyInfo prop in props)
             {
@@ -122,7 +120,7 @@ namespace BackendOrganizationManagement.Main.Handler
             {
                 case "user":
                     entityClass = typeof(user);
-                    this.baseService = new UserService(); 
+                    this.baseService = new UserService();
                     break;
 
                 case "division":
@@ -168,10 +166,7 @@ namespace BackendOrganizationManagement.Main.Handler
 
             }
             Filter filter = request.filter;
-            String[] sqlListAndCount = generateSqlByFilter(filter, entityClass);
-            String sql = sqlListAndCount[0];
-
-            String sqlCount = sqlListAndCount[1];
+            String sql = generateSqlByFilter(filter, entityClass, request);
 
             int offset = filter.page;// * filter.limit;
             bool withLimit = filter.limit > 0;
@@ -179,12 +174,62 @@ namespace BackendOrganizationManagement.Main.Handler
             int limit = withLimit ? filter.limit : 0;
 
             List<BaseEntity> entities = getEntitiesBySql(sql, entityClass, limit, offset);
-            int count = baseService.count; 
+            int count = baseService.count;
 
             WebResponse response = WebResponse.success();
             response.entities = entities;
             response.totalData = count;
             return response;
+        }
+
+        string[] validateSqlFilter(WebRequest webRequest, Type entityClass, string joinSql, string filterSql)
+        {
+            SessionData sessionData = sessionService.GetSessionData(webRequest);
+
+            division Division = sessionData.Division;
+            if (null == Division)
+            {
+                return new string[]
+                {
+                    joinSql, filterSql
+                };
+            }
+
+            Attribute customAttr = entityClass.GetCustomAttribute(typeof(AdditionalFilter));
+            if (null != customAttr)
+            {
+                AdditionalFilter additionalFilter = (AdditionalFilter)customAttr;
+
+                //join
+                if (additionalFilter.join != null)
+                {
+                    joinSql += " " + additionalFilter.join;
+
+                }
+                //filter
+                if (additionalFilter.filter != null)
+
+                {
+                    const string toReplace = "${filterId}";
+                    string replacedParam = additionalFilter.filter.Replace(toReplace, Division.id.ToString());
+
+                    if (filterSql != null || filterSql.Trim().Equals(""))
+                    {
+                        filterSql = "WHERE " + replacedParam;
+                    }
+                    else
+                    {
+                        filterSql += " AND " + replacedParam;
+                    }
+                }
+
+            }
+
+
+            return new string[]
+              {
+                    joinSql, filterSql
+              };
         }
 
         /**
@@ -193,7 +238,7 @@ namespace BackendOrganizationManagement.Main.Handler
          * @param entityClass
          * @return sql & sqlCount
          */
-        private String[] generateSqlByFilter(Filter filter, Type entityClass)
+        private string generateSqlByFilter(Filter filter, Type entityClass, WebRequest webRequest)
         {
 
             //		String entityName = request.entity;
@@ -207,20 +252,25 @@ namespace BackendOrganizationManagement.Main.Handler
             String orderType = filter.orderType;
             String orderBy = filter.orderBy;
             String tableName = entityClass.Name;
+
             string orderSQL = withOrder ? generateOrderSql(entityClass, orderType, orderBy) : "";
             String limitOffsetSQL = null;// withLimit ? " LIMIT " + filter.limit + " OFFSET " + offset : "";
+
             String filterSQL = withFilteredPropertyInfo ? createFilterSQL(entityClass, filter.fieldsFilter, exacts)
                     : "";
             String joinSql = createLeftJoinSQL(entityClass);
-            String sql = "select  [" + tableName + "].* from [" + tableName + "] " + joinSql + " " + filterSQL + orderSQL
+
+            string[] joinFilter = validateSqlFilter(webRequest, entityClass, joinSql, filterSQL);
+
+            String sql = "select  [" + tableName + "].* from [" + tableName + "] " + joinFilter[0] + " " + joinFilter[1] + orderSQL
                     + limitOffsetSQL;
-            String sqlCount = "select COUNT(*) from [" + tableName + "] " + joinSql + " " + filterSQL;
-            return new String[] { sql, sqlCount };
+            //String sqlCount = "select COUNT(*) from [" + tableName + "] " + joinSql + " " + filterSQL;
+            return sql;
         }
 
-        public List<BaseEntity> getEntitiesBySql(String sql, Type entityClass,int limit, int offset)
+        public List<BaseEntity> getEntitiesBySql(String sql, Type entityClass, int limit, int offset)
         {
-            List<object> entities = baseService.SqlList(sql,limit,offset);
+            List<object> entities = baseService.SqlList(sql, limit, offset);
             //return EntityUtil.validateDefaultValue(entities);
             List<BaseEntity> result = new List<BaseEntity>();
             foreach (object Object in entities)
@@ -244,7 +294,7 @@ namespace BackendOrganizationManagement.Main.Handler
 
         private static String getColumnName(PropertyInfo PropertyInfo)
         {
-            if(null == PropertyInfo)
+            if (null == PropertyInfo)
             {
                 return null;
             }
@@ -413,7 +463,7 @@ namespace BackendOrganizationManagement.Main.Handler
         private static String generateOrderSql(Type entityClass, String orderType, String orderBy)
         {
             // set order by 
-             PropertyInfo orderByPropertyInfo = EntityUtil.getSingleDeclaredField(entityClass, orderBy);
+            PropertyInfo orderByPropertyInfo = EntityUtil.getSingleDeclaredField(entityClass, orderBy);
             if (orderByPropertyInfo == null)
             {
                 return null;
@@ -422,7 +472,7 @@ namespace BackendOrganizationManagement.Main.Handler
             String columnName = orderBy;
             String tableName = entityClass.Name;
 
-           Attribute joinColumnAttr = orderByPropertyInfo.GetCustomAttribute(typeof(JoinColumn));
+            Attribute joinColumnAttr = orderByPropertyInfo.GetCustomAttribute(typeof(JoinColumn));
 
             if (joinColumnAttr != null)
             {
@@ -434,7 +484,7 @@ namespace BackendOrganizationManagement.Main.Handler
                     JoinColumn formPropertyInfo = (JoinColumn)joinColumnAttr;
                     PropertyInfo PropertyInfoPropertyInfo = PropertyInfoClass.GetProperty(formPropertyInfo.Converter);
                     columnName = formPropertyInfo.Converter;// getColumnName(PropertyInfoPropertyInfo);
-                    if(null == columnName)
+                    if (null == columnName)
                     {
                         return null;
                     }

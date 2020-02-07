@@ -13,9 +13,16 @@ namespace BackendOrganizationManagement.Models
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
+
+
+
     [CustomModel]
+    [AdditionalFilter(join = joinSql, filter = filterSql)]
     public partial class program : Main.Dto.BaseEntity
     {
+        const string joinSql = " left join division on division.id = [section].division_id";
+        const string filterSql = "division.id=${filterId}";
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public program()
         {

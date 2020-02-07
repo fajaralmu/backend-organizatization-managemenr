@@ -1,4 +1,5 @@
 ﻿using BackendOrganizationManagement.Main.Dto;
+using BackendOrganizationManagement.Main.Handler;
 using BackendOrganizationManagement.Main.Util;
 using BackendOrganizationManagement.Models;
 using System;
@@ -12,10 +13,11 @@ namespace BackendOrganizationManagement.Main.Service
     {
         public int count = 0;
         protected static mpi_dbEntities dbEntities;
+        protected SessionService sessionService;
 
         public BaseService()
         {
-            //Refresh();
+            sessionService = new SessionService();
         }
 
         public abstract List<object> ObjectList(int offset, int limit);
@@ -40,7 +42,7 @@ namespace BackendOrganizationManagement.Main.Service
         public virtual int getCountSearch()
         {
             return 0;
-        } 
+        }
 
         public static List<object> GetObjectList(BaseService Service, HttpRequestBase Req, user LoggedUser = null)
         {

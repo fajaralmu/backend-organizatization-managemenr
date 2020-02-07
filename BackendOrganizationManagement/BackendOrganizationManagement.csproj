@@ -430,6 +430,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Main\Attribute\AdditionalFilter.cs" />
     <Compile Include="Main\Attribute\Column.cs" />
     <Compile Include="Main\Attribute\JoinColumn.cs" />
     <Compile Include="Main\Attribute\Id.cs" />
