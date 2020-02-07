@@ -213,7 +213,7 @@ namespace BackendOrganizationManagement.Main.Handler
                     const string toReplace = "${filterId}";
                     string replacedParam = additionalFilter.filter.Replace(toReplace, Division.id.ToString());
 
-                    if (filterSql != null || filterSql.Trim().Equals(""))
+                    if (filterSql == null || filterSql.Trim().Equals(""))
                     {
                         filterSql = "WHERE " + replacedParam;
                     }
