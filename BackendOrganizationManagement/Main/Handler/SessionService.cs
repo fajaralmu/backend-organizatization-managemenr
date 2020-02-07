@@ -16,9 +16,17 @@ namespace BackendOrganizationManagement.Main.Handler
 
             SessionData existingSessionData = registryService.getSessionData(requestId);
 
-            if(existingSessionData != null)
+            if (existingSessionData != null)
             {
                 existingSessionData.User = finalUser;
+                /**
+                Clear Division if logout
+    */
+                if (finalUser == null)
+                {
+                    existingSessionData.Division = null;
+                }
+
                 registryService.putSession(requestId, existingSessionData);
                 return true;
             }
@@ -34,7 +42,7 @@ namespace BackendOrganizationManagement.Main.Handler
         internal SessionData GetSessionData(WebRequest request)
         {
 
-            SessionData existingSessionData = registryService.getSessionData(request.requestId); 
+            SessionData existingSessionData = registryService.getSessionData(request.requestId);
             return existingSessionData;
         }
 
@@ -44,7 +52,7 @@ namespace BackendOrganizationManagement.Main.Handler
             SessionData existingSessionData = registryService.getSessionData(requestId);
 
             if (existingSessionData != null)
-            { 
+            {
                 registryService.putSession(requestId, session);
                 return true;
             }
