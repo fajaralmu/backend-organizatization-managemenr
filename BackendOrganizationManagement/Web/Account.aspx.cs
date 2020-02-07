@@ -51,6 +51,15 @@ namespace BackendOrganizationManagement.Web
 
                         webResponse = DoLogin(webRequest);
                         break;
+
+                    case "/Divisions":
+
+                        webResponse = GetDivisions(webRequest);
+                        break;
+                    case "/SetDivision":
+
+                        webResponse = SetDivision(webRequest);
+                        break;
                     case "/Logout":
 
                         webResponse = DoLogout(webRequest);
@@ -68,7 +77,16 @@ namespace BackendOrganizationManagement.Web
             Response.Write(JsonConvert.SerializeObject(webResponse));
             Response.End();
         }
-         
+
+        private WebResponse SetDivision(WebRequest webRequest)
+        {
+            return accountService.SetDivision(webRequest);
+        }
+
+        private WebResponse GetDivisions(WebRequest webRequest)
+        {
+            return accountService.GetDivisions(webRequest);
+        }
 
         private WebResponse DoLogout(WebRequest webRequest)
         {
@@ -78,9 +96,7 @@ namespace BackendOrganizationManagement.Web
          
 
         public WebResponse DoLogin(WebRequest WebRequest)
-        {
-             
-           
+        { 
             return accountService.DoLogin(Request, WebRequest);
         }
     }

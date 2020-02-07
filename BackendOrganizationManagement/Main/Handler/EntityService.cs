@@ -62,6 +62,7 @@ namespace BackendOrganizationManagement.Main.Handler
                 case "member":
                     baseService = new MemberService();
                     return saveCommonEntity(request.member, newRecord);
+              
             }
 
             return WebResponse.failed();
@@ -162,6 +163,8 @@ namespace BackendOrganizationManagement.Main.Handler
                     entityClass = typeof(institution);
                     this.baseService = new InstitutionService();
                     break;
+                default:
+                    return WebResponse.failed();
 
             }
             Filter filter = request.filter;
@@ -492,6 +495,8 @@ namespace BackendOrganizationManagement.Main.Handler
                     case "member":
                         new MemberService().Delete(request.member);
                         break;
+                    default:
+                        return WebResponse.failed();
                 }
                 return WebResponse.success();
             }

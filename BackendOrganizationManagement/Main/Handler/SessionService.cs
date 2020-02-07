@@ -30,5 +30,26 @@ namespace BackendOrganizationManagement.Main.Handler
         {
             return putUser(requestId, null);
         }
+
+        internal SessionData GetSessionData(WebRequest request)
+        {
+
+            SessionData existingSessionData = registryService.getSessionData(request.requestId); 
+            return existingSessionData;
+        }
+
+        internal bool updateSessionData(string requestId, SessionData session)
+        {
+
+            SessionData existingSessionData = registryService.getSessionData(requestId);
+
+            if (existingSessionData != null)
+            { 
+                registryService.putSession(requestId, session);
+                return true;
+            }
+
+            return false;
+        }
     }
 }

@@ -33,7 +33,7 @@ namespace BackendOrganizationManagement.Models
         [Column]
         public Nullable<int> admin { get; set; }
         [Column]
-        public Nullable<int> institution_id { get; set; }
+        public int institution_id { get; set; }
         [Column]
         public Nullable<System.DateTime> created_date { get; set; }
         [Id]

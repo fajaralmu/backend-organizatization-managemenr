@@ -25,6 +25,16 @@ namespace BackendOrganizationManagement.Main.Service
             count = dbEntities.divisions.Count();
             return ObjList;
         }
+
+        public List<division> GetByInsitutionId(int id)
+        {
+            List<object> ObjList = new List<object>();
+            dbEntities = new mpi_dbEntities();
+            var Sql = (from p in dbEntities.divisions where p.institution_id == id select p);
+            List<division> List = Sql.ToList(); 
+            return List;
+        }
+
         public override BaseEntity Update(object Obj)
         {
             dbEntities = new mpi_dbEntities();
@@ -138,27 +148,7 @@ namespace BackendOrganizationManagement.Main.Service
             count = countSQL(sql, dbEntities.divisions);
             return categoryList;
         }
-
-        public override List<object> SearchAdvanced(Dictionary<string, object> Params, int limit = 0, int offset = 0, bool updateCount = true)
-        {
-
-            string id = Params.ContainsKey("id") ? Params["id"].ToString() : "";
-            string name = Params.ContainsKey("name") ? (string)Params["name"] : "";
-            string desc = Params.ContainsKey("description") ? (string)Params["description"] : "";
-            string institution_id = Params.ContainsKey("institution_id") ? Params["institution_id"].ToString() : "";
-            string orderby = Params.ContainsKey("orderby") ? (string)Params["orderby"] : "";
-            string ordertype = Params.ContainsKey("ordertype") ? (string)Params["ordertype"] : "";
-
-            string sql = "select * from [division] where [id] like '%" + id + "%'" +
-                " and [name] like '%" + name + "%' and [description] like '%" + desc + "%'" +
-                (StringUtil.NotNullAndNotBlank(institution_id) ? " and [institution_id] =" + institution_id + " " : "");
-            sql += StringUtil.AddSortQuery(orderby, ordertype);
-            dbEntities = new mpi_dbEntities();
-            count = countSQL(sql, dbEntities.divisions);
-            return SqlList(sql, limit, offset);
-        }
-
-
+         
         public override int countSQL(string sql, object dbSet)
         {
             return ((DbSet<division>)dbSet)

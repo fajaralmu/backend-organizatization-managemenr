@@ -12,30 +12,35 @@ namespace BackendOrganizationManagement.Main.Handler
     public class AccountService
     {
         private UserService userService = new UserService();
+        private DivisionService divisionService = new DivisionService();
         private SessionService sessionService = new SessionService();
 
         internal WebResponse DoLogin(HttpRequest request, WebRequest webRequest)
         {
-             
+
             user requestUser = webRequest.user;
 
-            if(null == requestUser)
+            if (null == requestUser)
             {
                 return WebResponse.failed("Invalid Login");
             }
 
             user AuthUser = userService.GetUserByUsernameAndPassword(requestUser.username, requestUser.password);
 
-            if(AuthUser!= null)
+            if (AuthUser != null)
             {
                 WebResponse response = WebResponse.success();
- 
-                user finalUser = (user) ObjectUtil.CopyObjectIgnore(AuthUser, "posts","password");
+
+                user finalUser = (user)ObjectUtil.CopyObjectIgnore(AuthUser, "posts", "password");
 
                 response.user = finalUser;
                 bool updateSession = sessionService.putUser(webRequest.requestId, finalUser);
-                if(updateSession)
+                if (updateSession)
+                {
+                    List<division> divisionList = divisionService.GetByInsitutionId(finalUser.institution_id);
+                    response.divisions = divisionList;
                     return response;
+                }
             }
 
             return WebResponse.failed();
@@ -47,6 +52,55 @@ namespace BackendOrganizationManagement.Main.Handler
             if (sessionService.removeUser(webRequest.requestId))
             {
                 return WebResponse.success();
+            }
+
+            return WebResponse.failed();
+        }
+
+        internal WebResponse GetDivisions(WebRequest webRequest)
+        {
+            SessionData sessionData = this.sessionService.GetSessionData(webRequest);
+            if (null != sessionData && null != sessionData.User)
+            {
+                WebResponse response = WebResponse.success();
+
+                List<division> divisions = divisionService.GetByInsitutionId(sessionData.User.institution_id);
+
+                if (null == divisions)
+                {
+                    divisions = new List<division>();
+                }
+                response.divisions = divisions;
+
+                return response;
+            }
+
+            return WebResponse.failed();
+        }
+
+        internal WebResponse SetDivision(WebRequest webRequest)
+        {
+            SessionData sessionData = this.sessionService.GetSessionData(webRequest);
+            if (null != sessionData && null != sessionData.User)
+            {
+                WebResponse response = WebResponse.success();
+                try
+                {
+                    object division = divisionService.GetById(webRequest.divisionId);
+
+                    if (null != division)
+                    {
+                        response.entity = (division)division;
+                        sessionData.Division = (division)division;
+                        sessionService.updateSessionData(webRequest.requestId, sessionData);
+                        return response;
+                    }
+                   
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
 
             return WebResponse.failed();

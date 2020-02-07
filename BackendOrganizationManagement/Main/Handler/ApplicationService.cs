@@ -19,8 +19,8 @@ namespace BackendOrganizationManagement.Main.Handler
             string RandomChar =  StringUtil.GenerateRandomChar(20);
 
             bool exist = false;
-
-            if(null!=requestId)
+             
+            if (null!=requestId)
             {
                 SessionData sessionData = registryService.getSessionData(requestId);
 
@@ -28,6 +28,11 @@ namespace BackendOrganizationManagement.Main.Handler
                 {
                     RandomChar = requestId;
                     exist = true;
+
+                    if(sessionData.User!= null)
+                    {
+                        response.loggedIn = true;
+                    }
                 }
             }
 
@@ -37,10 +42,11 @@ namespace BackendOrganizationManagement.Main.Handler
             {
                 registryService.putSession(RandomChar, new SessionData()
                 {
-                    message = "MANTAP",
+                    message = "session_data",
                     requestDate = DateTime.Now
                 });
             }
+             
             
 
             return response;

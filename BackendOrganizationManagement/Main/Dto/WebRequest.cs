@@ -17,6 +17,7 @@ namespace BackendOrganizationManagement.Main.Dto
         public program program { get; set; }
         public section section { get; set; }
         public member member { get; set; }
+        public int divisionId { get; set; }
 
         public string entity { get; set; }
         public Filter filter { get; set; }
