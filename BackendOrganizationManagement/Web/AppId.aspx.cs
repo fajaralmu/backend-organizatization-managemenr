@@ -17,7 +17,7 @@ namespace BackendOrganizationManagement.Web
 {
     public partial class WebForm1 : System.Web.UI.Page
     {
-        const String BASE_PATH = "/Web/AppId";
+        const String BASE_PATH = "/Web/AppId.aspx";
         private ApplicationService appService;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -54,14 +54,21 @@ namespace BackendOrganizationManagement.Web
                 }
 
             }
+            else
+            { 
+            }
 
             webResponse.sessionData = RegistryService.Instance().getSessionData(requestId);
 
-            Response.AddHeader("Access-Control-Allow-Origin", "*"); 
-            Response.AddHeader("Access-Control-Allow-Methods", "*");
             Response.Clear();
+            Response.StatusCode = 200;
+            //Response.AddHeader("Access-Control-Allow-Origin", "*"); 
+            Response.AddHeader("Access-Control-Allow-Methods", "*");
+            Response.AddHeader("Access-Control-Allow-Headers", "*");
+            
             Response.ContentType = "application/json; charset=utf-8";
             Response.Write(JsonConvert.SerializeObject(webResponse));
+
             Response.End();
             DebugConsole.Debug("END APP ID");
         }

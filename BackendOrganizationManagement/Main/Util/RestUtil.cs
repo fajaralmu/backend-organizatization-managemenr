@@ -13,6 +13,8 @@ namespace BackendOrganizationManagement.Main.Util
     {
         internal static WebRequest readRequestBody(HttpRequest Request)
         {
+            WebRequest req = new WebRequest();
+            req.requestId = Request.Headers.Get("requestId");
             var jsonString = String.Empty;
 
             Request.InputStream.Position = 0;
@@ -23,7 +25,16 @@ namespace BackendOrganizationManagement.Main.Util
 
             DebugConsole.Debug("Request Body: ", jsonString);
 
-            return (WebRequest)JsonConvert.DeserializeObject(jsonString, typeof(WebRequest));
+            if (jsonString == null || jsonString.Equals(""))
+            {
+                return req;
+            }
+
+            req = (WebRequest)JsonConvert.DeserializeObject(jsonString, typeof(WebRequest));
+            //IMPORTANT!!
+            req.requestId = Request.Headers.Get("requestId");
+
+            return req;
         }
     }
 }

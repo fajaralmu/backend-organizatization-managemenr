@@ -13,7 +13,7 @@ namespace BackendOrganizationManagement.Models
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-
+    using System.Web.Script.Serialization;
 
 
     [CustomModel]
@@ -42,6 +42,7 @@ namespace BackendOrganizationManagement.Models
         [Column]
         public int id { get; set; }
         [JsonIgnore]
+        [ScriptIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<@event> events { get; set; }
 

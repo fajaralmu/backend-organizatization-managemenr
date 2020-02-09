@@ -54,7 +54,10 @@ namespace BackendOrganizationManagement.Main.Handler
             return false;
            
         }
-
+        public SessionData getSessionData(WebRequest req)
+        {
+            return this.getSessionData(req.requestId);
+        }
         public SessionData getSessionData(string sessionVal)
         {
             try

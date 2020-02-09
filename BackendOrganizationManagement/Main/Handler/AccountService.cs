@@ -31,14 +31,22 @@ namespace BackendOrganizationManagement.Main.Handler
             {
                 WebResponse response = WebResponse.success();
 
-                user finalUser = (user)ObjectUtil.CopyObjectIgnore(AuthUser, "posts", "password");
+                user finalUser = (user)ObjectUtil.CopyObjectIgnore(AuthUser, "posts", "password", "institution");
 
                 response.user = finalUser;
                 bool updateSession = sessionService.putUser(webRequest.requestId, finalUser);
                 if (updateSession)
                 {
                     List<division> divisionList = divisionService.GetByInsitutionId(finalUser.institution_id);
-                    response.divisions = divisionList;
+
+                    List<division> resultList = new List<division>();
+                    //avoid circular
+                    foreach(division Div in divisionList)
+                    {
+                        resultList.Add((division)ObjectUtil.CopyObjectIgnore(Div, "institution", "sections"));
+                    }
+
+                    response.divisions = resultList;
                     return response;
                 }
             }

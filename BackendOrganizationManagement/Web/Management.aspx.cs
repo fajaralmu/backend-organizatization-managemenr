@@ -8,79 +8,65 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Services;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace BackendOrganizationManagement.Web
 {
     public partial class Management : System.Web.UI.Page
-    {
-        const string BASE_PATH = "/Web/Management";
+    { 
 
-        private EntityService entityService;
-        private RegistryService registryService = RegistryService.Instance();
-
-        public string ResponseJson { get; private set; }
-
+        private static EntityService entityService = new EntityService();
+        private static RegistryService registryService = RegistryService.Instance(); 
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.entityService = new EntityService();
+        }
 
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public static string Add()
+        {
+            HttpRequest Request = HttpContext.Current.Request;
+            WebRequest webRequest = RestUtil.readRequestBody(Request);
 
-            String RawUrl = Request.RawUrl;
+            WebResponse response = entityService.addEntity(webRequest, Request, true);
+            response.sessionData = registryService.getSessionData(webRequest);
+            return (JsonConvert.SerializeObject(response));
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public static string Update()
+        {
+            HttpRequest Request = HttpContext.Current.Request;
+            WebRequest webRequest = RestUtil.readRequestBody(Request);
 
-            string RequestPath = "";
-            string requestId = Request.Headers.Get("requestId");
+            WebResponse response = entityService.addEntity(webRequest, Request, false);
+            response.sessionData = registryService.getSessionData(webRequest);
+            return (JsonConvert.SerializeObject(response));
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public static string Get()
+        {
+            HttpRequest Request = HttpContext.Current.Request;
+            WebRequest webRequest = RestUtil.readRequestBody(Request);
 
-            WebResponse webResponse = new WebResponse();
-            WebRequest webRequest = new WebRequest()
-             ;
+            WebResponse response = entityService.filter(webRequest);
+            response.sessionData = registryService.getSessionData(webRequest);
+            return (JsonConvert.SerializeObject(response));
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public static string Delete()
+        {
+            HttpRequest Request = HttpContext.Current.Request;
+            WebRequest webRequest = RestUtil.readRequestBody(Request);
 
-            if (Request.HttpMethod.Equals("POST"))
-            {
-                if (Request.ContentType.Equals("application/json"))
-                {  
-                    webRequest = RestUtil.readRequestBody(Request);
-                }
-                if (BASE_PATH.Equals(RawUrl) == false)
-                {
-                    RequestPath = RawUrl.Substring(BASE_PATH.Length, RawUrl.Length - BASE_PATH.Length);
-                }
-
-                webRequest.requestId = requestId;
-
-                DebugConsole.Debug(this, "RequestPath: " + RequestPath, "Raw: ",RawUrl);
-                switch (RequestPath)
-                {
-                    case "/Add":
-
-                       webResponse = entityService.addEntity(webRequest, Request, true);
-                        break;
-                    case "/Update":
-
-                        webResponse = entityService.addEntity(webRequest, Request, false);
-                        break;
-                    case "/Get":
-
-                        webResponse = entityService.filter(webRequest);
-                        break;
-                    case "/Delete":
-
-                        webResponse = entityService.delete(webRequest);
-                        break;
-
-                }
-
-            }
-
-            webResponse.sessionData = registryService.getSessionData(requestId);
-
-            Response.Clear();
-            Response.AddHeader("Access-Control-Allow-Origin", "*");
-            Response.AddHeader("Access-Control-Allow-Methods", "*");
-            Response.ContentType = "application/json; charset=utf-8";
-            Response.Write(JsonConvert.SerializeObject(webResponse));
-            Response.End();
+            WebResponse response = entityService.delete(webRequest);
+            response.sessionData = registryService.getSessionData(webRequest);
+            return (JsonConvert.SerializeObject(response));
         }
 
     }

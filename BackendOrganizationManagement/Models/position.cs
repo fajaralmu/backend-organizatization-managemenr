@@ -13,6 +13,7 @@ namespace BackendOrganizationManagement.Models
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
+    using System.Web.Script.Serialization;
     [CustomModel]
     public partial class position: BaseEntity
     {
@@ -32,6 +33,7 @@ namespace BackendOrganizationManagement.Models
         [Column]
         public string description { get; set; }
         [JsonIgnore]
+        [ScriptIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<member> members { get; set; }
     }

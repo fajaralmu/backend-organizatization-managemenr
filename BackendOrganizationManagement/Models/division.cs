@@ -14,6 +14,7 @@ namespace BackendOrganizationManagement.Models
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
+    using System.Web.Script.Serialization;
     [CustomModel]
     public partial class division: Main.Dto. BaseEntity
     {
@@ -40,6 +41,7 @@ namespace BackendOrganizationManagement.Models
         
         public virtual institution institution { get; set; }
         [JsonIgnore]
+        [ScriptIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<section> sections { get; set; }
        
