@@ -34,7 +34,7 @@ namespace BackendOrganizationManagement.Web
 
             WebResponse response = entityService.addEntity(webRequest, Request, true);
             response.sessionData = registryService.getSessionData(webRequest);
-            return (JsonConvert.SerializeObject(response));
+            return (StringUtil.serializeCustomModel(response));
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
@@ -45,7 +45,7 @@ namespace BackendOrganizationManagement.Web
 
             WebResponse response = entityService.addEntity(webRequest, Request, false);
             response.sessionData = registryService.getSessionData(webRequest);
-            return (JsonConvert.SerializeObject(response));
+            return (StringUtil.serializeCustomModel(response));
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
@@ -56,7 +56,7 @@ namespace BackendOrganizationManagement.Web
 
             WebResponse response = entityService.filter(webRequest);
             response.sessionData = registryService.getSessionData(webRequest);
-            return (JsonConvert.SerializeObject(response));
+            return (StringUtil.serializeCustomModel(response));
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
@@ -67,7 +67,7 @@ namespace BackendOrganizationManagement.Web
 
             WebResponse response = entityService.delete(webRequest);
             response.sessionData = registryService.getSessionData(webRequest);
-            return (JsonConvert.SerializeObject(response));
+            return (StringUtil.serializeCustomModel(response));
         }
 
     }

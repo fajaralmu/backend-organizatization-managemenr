@@ -25,7 +25,8 @@ namespace BackendOrganizationManagement.Web
 
         protected void Page_Load(object sender, EventArgs e)
         {
-        
+            Response.ContentType = "application/json";
+
         }
 
         [WebMethod]
@@ -38,7 +39,7 @@ namespace BackendOrganizationManagement.Web
 
             WebResponse response = adminService.getEvent(webRequest, Request, true);
             response.sessionData = registryService.getSessionData(webRequest);
-            return (JsonConvert.SerializeObject(response));
+            return (StringUtil.serializeCustomModel(response));
         }
 
     }

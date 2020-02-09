@@ -197,6 +197,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Asset\Images\asp.png" />
     <Content Include="Asset\Images\mpi.png" />
     <Content Include="Asset\Images\transparent.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -219,8 +220,8 @@
     </Content>
     <Content Include="Web\Account.aspx" />
     <Content Include="Web\Admin.aspx" />
-    <Content Include="Web\AppId.aspx" />
     <Content Include="Web\Management.aspx" />
+    <Content Include="Web\Public.aspx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -349,19 +350,19 @@
     <Compile Include="Web\Admin.aspx.designer.cs">
       <DependentUpon>Admin.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Web\AppId.aspx.cs">
-      <DependentUpon>AppId.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Web\AppId.aspx.designer.cs">
-      <DependentUpon>AppId.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Web\Management.aspx.cs">
       <DependentUpon>Management.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Web\Management.aspx.designer.cs">
       <DependentUpon>Management.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\Public.aspx.cs">
+      <DependentUpon>Public.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\Public.aspx.designer.cs">
+      <DependentUpon>Public.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

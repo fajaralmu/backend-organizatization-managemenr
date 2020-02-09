@@ -24,11 +24,11 @@ namespace BackendOrganizationManagement.Models
         [Column]
         public int user_id { get; set; }
         [Column]
-        public Nullable<int> type { get; set; }
+        public int  type { get; set; }
         [Column]
-        public Nullable<System.DateTime> date { get; set; }
+        public  System.DateTime  date { get; set; }
         [Column]
-        public Nullable<System.DateTime> created_date { get; set; }
+        public  System.DateTime created_date { get; set; }
 
         [Id]
         [Column]

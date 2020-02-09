@@ -6,6 +6,7 @@ using System.Web;
 
 namespace BackendOrganizationManagement.Main.Dto
 {
+    [CustomModel]
     public class WebResponse 
     {
         public string code { get; set; }

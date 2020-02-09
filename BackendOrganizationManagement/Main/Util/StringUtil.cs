@@ -1,7 +1,12 @@
-﻿using System;
+﻿using BackendOrganizationManagement.Main.Dto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Web;
+using Newtonsoft.Json;
+using System.Collections;
 
 namespace BackendOrganizationManagement.Main.Util
 {
@@ -254,6 +259,157 @@ namespace BackendOrganizationManagement.Main.Util
             {
                 return new Dictionary<string, object>();
             }
+        }
+
+        public static string serializeCustomModel(object Object)
+        {
+            if (Object == null)
+            {
+                return null;
+            }
+
+            Type objectType = Object.GetType();
+
+            bool customMode = haSCustomModel(objectType);
+            bool isList = objectType.Name.Contains("List");
+            int i = 0;
+            if (isList)
+            {
+                IList list = (IList)Object;
+
+                if (list.Count == 0) { return "[]"; }
+
+                StringBuilder result = new StringBuilder("[");
+
+                foreach (object Item in list)
+                {
+                    result = result.Append(serializeCustomModel(Item));
+                    i++;
+                    if (i < list.Count)
+                    {
+                        result = result.Append(",");
+                    }
+                }
+
+                return result.Append("]").ToString();
+
+            }
+
+            if (!customMode)
+            {
+                return doubleQuote(Object);
+            }
+            PropertyInfo[] propInfos = objectType.GetProperties();
+
+            string preffix = "{";
+            string suffix = "}";
+
+            StringBuilder builder = new StringBuilder(preffix);
+            i = 0;
+            int fieldCount = propInfos.Length;
+
+            foreach (PropertyInfo propInfo in propInfos)
+            {
+               
+                //if ignored = 
+                if (propInfo.GetCustomAttribute(typeof(JsonIgnoreAttribute)) != null)
+                {
+                    fieldCount--;
+                    continue;
+                }
+
+                string propName = propInfo.Name;
+
+                builder = builder.Append(doubleQuote(propName)).Append(":");
+
+                //value
+                object value = propInfo.GetValue(Object);
+                if (value != null)
+                {
+
+                    string StrValue = serializeCustomModel(value);
+                    builder = builder.Append(StrValue);
+
+                }
+                else if (value == null)
+                {
+                    builder = builder.Append("null");
+                }
+                i++;
+                if (i < fieldCount)
+                {
+                    builder = builder.Append(",");
+                }
+
+            }
+
+            if (builder.ToString().EndsWith(","))
+            {
+                builder = builder.Remove(builder.ToString().Length - 1, 1);
+            }
+            return builder.Append(suffix).ToString();
+
+        }
+
+        static string doubleQuote(object Object)
+        {
+
+            Type type = Object.GetType();
+
+            if (typeOf(type, typeof(bool), typeof(Boolean)))
+            {
+                bool obj = (bool)Object;
+                return "" + (obj ? "true" : "false") + "";
+            }
+            else if (IsNumericType(Object))
+            {
+                return Object.ToString();
+            }
+
+            return ("\"") + (Object == null ? "" : Object.ToString()) + ("\"");
+        }
+
+        static bool typeOf(Type t, params Type[] types)
+        {
+            foreach (Type type in types)
+            {
+                if (t.Equals(type)) { return true; }
+            }
+            return false;
+        }
+
+        public static bool IsNumericType(object o)
+        {
+            switch (Type.GetTypeCode(o.GetType()))
+            {
+                case TypeCode.Byte:
+                case TypeCode.SByte:
+                case TypeCode.UInt16:
+                case TypeCode.UInt32:
+                case TypeCode.UInt64:
+                case TypeCode.Int16:
+                case TypeCode.Int32:
+                case TypeCode.Int64:
+                case TypeCode.Decimal:
+                case TypeCode.Double:
+                case TypeCode.Single:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        static bool haSCustomModel(Type type)
+        {
+            object[] attrs = type.GetCustomAttributes(true);
+
+            foreach (object attr in attrs)
+            {
+                if (attr.GetType().Equals(typeof(CustomModel)))
+                    return true;
+            }
+
+            return false;
         }
     }
 }

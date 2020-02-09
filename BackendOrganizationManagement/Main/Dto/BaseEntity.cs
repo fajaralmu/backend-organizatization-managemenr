@@ -5,6 +5,7 @@ using System.Web;
 
 namespace BackendOrganizationManagement.Main.Dto
 {
+    [CustomModel]
     public class BaseEntity
     {
     }

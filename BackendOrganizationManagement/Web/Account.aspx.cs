@@ -41,7 +41,7 @@ namespace BackendOrganizationManagement.Web
 
             WebResponse response = accountService.DoLogin(Request, webRequest);
              
-            return(JsonConvert.SerializeObject(response));
+            return(StringUtil.serializeCustomModel(response));
             
         }
 
@@ -54,7 +54,7 @@ namespace BackendOrganizationManagement.Web
 
             WebResponse response = accountService.DoLogout(Request, webRequest);
              
-            return(JsonConvert.SerializeObject(response)); 
+            return(StringUtil.serializeCustomModel(response)); 
         }
 
         [WebMethod]
@@ -66,7 +66,7 @@ namespace BackendOrganizationManagement.Web
 
             WebResponse response = accountService.GetDivisions(webRequest);
              
-            return(JsonConvert.SerializeObject(response));
+            return(StringUtil.serializeCustomModel(response));
         }
 
         [WebMethod] 
@@ -78,7 +78,7 @@ namespace BackendOrganizationManagement.Web
 
             WebResponse response = accountService.SetDivision(webRequest);
              
-            return(JsonConvert.SerializeObject(response));
+            return(StringUtil.serializeCustomModel(response));
         }
     }
 }
