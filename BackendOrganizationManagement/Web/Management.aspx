@@ -1,3 +1,3 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Management.aspx.cs" Inherits="BackendOrganizationManagement.Web.Management" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Management.aspx.cs" Inherits="BackendOrganizationManagement.Web.Management" %>
 
  

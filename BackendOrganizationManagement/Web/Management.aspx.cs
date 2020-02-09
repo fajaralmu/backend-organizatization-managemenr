@@ -16,10 +16,11 @@ using System.Web.UI.WebControls;
 namespace BackendOrganizationManagement.Web
 {
     public partial class Management : System.Web.UI.Page
-    { 
+    {
 
-        private static EntityService entityService = new EntityService();
-        private static RegistryService registryService = RegistryService.Instance(); 
+        public static RegistryService registryService = RegistryService.Instance();
+
+        private  static EntityService entityService = new EntityService();
         protected void Page_Load(object sender, EventArgs e)
         {
         }

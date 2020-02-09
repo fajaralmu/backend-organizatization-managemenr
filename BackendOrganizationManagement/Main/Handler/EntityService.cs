@@ -11,7 +11,7 @@ using System.Web;
 
 namespace BackendOrganizationManagement.Main.Handler
 {
-    class EntityService
+    public class EntityService
     {
         BaseService baseService;
         private SessionService sessionService = new SessionService();
