@@ -15,7 +15,7 @@ namespace BackendOrganizationManagement.Main.Handler
         private DivisionService divisionService = new DivisionService();
         private SessionService sessionService = new SessionService();
 
-        internal WebResponse DoLogin(HttpRequest request, WebRequest webRequest)
+        public WebResponse DoLogin(HttpRequest request, WebRequest webRequest)
         {
 
             user requestUser = webRequest.user;
@@ -55,7 +55,7 @@ namespace BackendOrganizationManagement.Main.Handler
 
         }
 
-        internal WebResponse DoLogout(HttpRequest request, WebRequest webRequest)
+        public WebResponse DoLogout(HttpRequest request, WebRequest webRequest)
         {
             if (sessionService.removeUser(webRequest.requestId))
             {
@@ -65,7 +65,7 @@ namespace BackendOrganizationManagement.Main.Handler
             return WebResponse.failed();
         }
 
-        internal WebResponse GetDivisions(WebRequest webRequest)
+        public WebResponse GetDivisions(WebRequest webRequest)
         {
             SessionData sessionData = this.sessionService.GetSessionData(webRequest);
             if (null != sessionData && null != sessionData.User)
@@ -86,7 +86,7 @@ namespace BackendOrganizationManagement.Main.Handler
             return WebResponse.failed();
         }
 
-        internal WebResponse SetDivision(WebRequest webRequest)
+        public WebResponse SetDivision(WebRequest webRequest)
         {
             SessionData sessionData = this.sessionService.GetSessionData(webRequest);
             if (null != sessionData && null != sessionData.User)

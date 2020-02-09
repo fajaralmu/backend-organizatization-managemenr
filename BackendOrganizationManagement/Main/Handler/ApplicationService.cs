@@ -12,7 +12,7 @@ namespace BackendOrganizationManagement.Main.Handler
     {
         private RegistryService registryService = RegistryService.Instance();
 
-        internal WebResponse generateAppId(string requestId)
+        public WebResponse generateAppId(string requestId)
         {
             WebResponse response = WebResponse.success();
 

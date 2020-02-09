@@ -11,7 +11,7 @@ namespace BackendOrganizationManagement.Main.Handler
     {
         private RegistryService registryService = RegistryService.Instance();
 
-        internal bool putUser(string requestId, user finalUser)
+        public bool putUser(string requestId, user finalUser)
         {
 
             SessionData existingSessionData = registryService.getSessionData(requestId);
@@ -39,14 +39,14 @@ namespace BackendOrganizationManagement.Main.Handler
             return putUser(requestId, null);
         }
 
-        internal SessionData GetSessionData(WebRequest request)
+        public SessionData GetSessionData(WebRequest request)
         {
 
             SessionData existingSessionData = registryService.getSessionData(request.requestId);
             return existingSessionData;
         }
 
-        internal bool updateSessionData(string requestId, SessionData session)
+        public bool updateSessionData(string requestId, SessionData session)
         {
 
             SessionData existingSessionData = registryService.getSessionData(requestId);

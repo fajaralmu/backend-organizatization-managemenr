@@ -25,7 +25,7 @@ namespace BackendOrganizationManagement.Main.Dto
         public int year { get; set; }
         public int month { get; set; }
 
-        //internal
+        //public
         public string requestId { get; set; }
 
     }

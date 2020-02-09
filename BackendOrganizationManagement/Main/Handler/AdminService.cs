@@ -14,7 +14,7 @@ namespace BackendOrganizationManagement.Main.Handler
         private RegistryService registryService =  RegistryService.Instance();
         private EventService eventService = new EventService();
 
-        internal WebResponse getEvent(WebRequest webRequest, HttpRequest request, bool v)
+        public WebResponse getEvent(WebRequest webRequest, HttpRequest request, bool v)
         {
             SessionData sessionData = registryService.getSessionData(webRequest.requestId);
             if (sessionData == null || sessionData.Division == null)

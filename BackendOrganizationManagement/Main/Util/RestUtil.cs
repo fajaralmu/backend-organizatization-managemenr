@@ -11,7 +11,7 @@ namespace BackendOrganizationManagement.Main.Util
 {
     public class RestUtil
     {
-        internal static WebRequest readRequestBody(HttpRequest Request)
+        public static WebRequest readRequestBody(HttpRequest Request)
         {
             WebRequest req = new WebRequest();
             req.requestId = Request.Headers.Get("requestId");

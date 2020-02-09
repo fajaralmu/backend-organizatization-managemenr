@@ -157,7 +157,7 @@ namespace BackendOrganizationManagement.Main.Util
             return result;
         }
 
-        internal static bool NotNullAndNotBlank(object Obj)
+        public static bool NotNullAndNotBlank(object Obj)
         {
             if (Obj != null && !Obj.ToString().Equals(""))
             {
@@ -166,7 +166,7 @@ namespace BackendOrganizationManagement.Main.Util
             return false;
         }
 
-        internal static string AddSortQuery(string orderby, string ordertype)
+        public static string AddSortQuery(string orderby, string ordertype)
         {
             string sql = "";
             if (NotNullAndNotBlank(orderby))
@@ -192,7 +192,7 @@ namespace BackendOrganizationManagement.Main.Util
             return true;
         }
 
-        internal static string AddDateFilterQuery(Dictionary<string, object> Params, string entity, string dateColumnName, bool beginWithAnd)
+        public static string AddDateFilterQuery(Dictionary<string, object> Params, string entity, string dateColumnName, bool beginWithAnd)
         {
             string sql = "";
 
