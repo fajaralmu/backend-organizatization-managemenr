@@ -115,7 +115,10 @@ namespace BackendOrganizationManagement.Main.Handler
         public WebResponse filter(WebRequest request)
         {
             Type entityClass = null;
-
+            if(request.entity == null)
+            {
+                return WebResponse.failed();
+            }
             switch (request.entity.ToLower())
             {
                 case "user":

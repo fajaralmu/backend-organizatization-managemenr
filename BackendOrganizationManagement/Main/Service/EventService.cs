@@ -6,6 +6,7 @@ using System.Web;
 using BackendOrganizationManagement.Models;
 using BackendOrganizationManagement.Main.Util;
 using BackendOrganizationManagement.Main.Dto;
+using System.Data.Entity.SqlServer;
 
 namespace BackendOrganizationManagement.Main.Service
 {
@@ -48,6 +49,26 @@ namespace BackendOrganizationManagement.Main.Service
             @event @event = (from o in dbEntities.events where o.id == (int)Id select o).SingleOrDefault();
             return @event;
         }
+
+        public List<BaseEntity> GetByMonthAndYear(int month, int year, int divisionId)
+        {
+            List<object> ObjList = new List<object>();
+            dbEntities = new mpi_dbEntities();
+            var Sql = (from e in dbEntities.events where 
+                            SqlFunctions.DatePart("month", e.date) == month
+                       &&   SqlFunctions.DatePart("year", e.date) == year
+                       && e.program.section.division_id == divisionId
+                       select e);
+            List<@event> List = Sql.ToList();
+            List<BaseEntity> baseEnties= new List<BaseEntity>();
+            foreach(@event e in List)
+            {
+                baseEnties.Add(e);
+            }
+
+            return baseEnties;
+        }
+
 
         public override bool Delete(object Obj)
         {

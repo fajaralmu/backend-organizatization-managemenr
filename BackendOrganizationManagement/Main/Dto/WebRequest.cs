@@ -22,6 +22,9 @@ namespace BackendOrganizationManagement.Main.Dto
         public string entity { get; set; }
         public Filter filter { get; set; }
 
+        public int year { get; set; }
+        public int month { get; set; }
+
         //internal
         public string requestId { get; set; }
 

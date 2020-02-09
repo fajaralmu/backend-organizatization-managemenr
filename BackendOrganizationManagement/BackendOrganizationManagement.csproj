@@ -237,6 +237,7 @@
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
     <Content Include="Web\Account.aspx" />
+    <Content Include="Web\Admin.aspx" />
     <Content Include="Web\AppId.aspx" />
     <Content Include="Web\Management.aspx" />
     <EntityDeploy Include="Models\Model1.edmx">
@@ -442,6 +443,7 @@
     <Compile Include="Main\Dto\WebRequest.cs" />
     <Compile Include="Main\Dto\WebResponse.cs" />
     <Compile Include="Main\Handler\AccountService.cs" />
+    <Compile Include="Main\Handler\AdminService.cs" />
     <Compile Include="Main\Handler\ApplicationService.cs" />
     <Compile Include="Main\Handler\EntityService.cs" />
     <Compile Include="Main\Handler\RegistryService.cs" />
@@ -534,6 +536,13 @@
     </Compile>
     <Compile Include="Web\Account.aspx.designer.cs">
       <DependentUpon>Account.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web\Admin.aspx.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\Admin.aspx.designer.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
     </Compile>
     <Compile Include="Web\AppId.aspx.cs">
       <DependentUpon>AppId.aspx</DependentUpon>

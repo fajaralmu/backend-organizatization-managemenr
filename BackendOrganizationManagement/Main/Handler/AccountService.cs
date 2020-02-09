@@ -93,6 +93,8 @@ namespace BackendOrganizationManagement.Main.Handler
                         response.entity = (division)division;
                         sessionData.Division = (division)division;
                         sessionService.updateSessionData(webRequest.requestId, sessionData);
+
+                        response.sessionData = this.sessionService.GetSessionData(webRequest); 
                         return response;
                     }
                    
