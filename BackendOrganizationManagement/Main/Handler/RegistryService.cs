@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using OrgWebMvc.Main.Util;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -13,27 +14,92 @@ using System.Web.Script.Serialization;
 namespace BackendOrganizationManagement.Main.Handler
 {
     public class RegistryService
-    { 
+    {
 
         JavaScriptSerializer serializer = new JavaScriptSerializer();
         private static RegistryService reg;
-        static Dictionary<string, string> sessionMap = new Dictionary<string, string>();
+       
+
+        public static Dictionary<string, string> getSessions()
+        { //
+            return new Dictionary<string, string>();
+        }
+
+        static string connectionString = "data source=FAJAR-PC\\SQLEXPRESS;initial catalog=mpi_db;user id=sa;password=fjrmnwwrsqlserver;";
+
+          
 
         public static string GetValue(string sessionKey)
         {
-            if (sessionMap.ContainsKey(sessionKey))
-                return sessionMap[sessionKey];
-            else return null;
+            SqlConnection cnn = null;
+            
+            object value = null;
+            try {
+                cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                SqlCommand command = new SqlCommand("select session_key,session_data from [session] where session_key = @sessionKey", cnn);
+                // Add the parameters.
+                command.Parameters.Add(new SqlParameter("sessionKey", sessionKey));
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    // while there is another record present
+                    while (reader.Read())
+                    {
+                        // write the data on to the screen
+                        value = reader[1];
+                    }
+                }
+            }catch(Exception e)  {  }
+            finally
+            {
+                if(cnn!=null)
+                    cnn.Close();
+            }
+           
+            if (value != null)
+                return value.ToString();
+            else
+                return null;
         }
 
         static void SetValue(string sessionKey, string val)
         {
-            if (GetValue(sessionKey) != null)
+            
+
+            SqlConnection cnn = null;  
+            try
             {
-                sessionMap[sessionKey] = val;
+                cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                SqlCommand command;
+                string sessionData = GetValue(sessionKey);
+
+                if (sessionData == null)
+                {
+                    command = new SqlCommand("INSERT INTO session (session_key, session_data, created_date)" +
+                   "VALUES (@0, @1, CURRENT_TIMESTAMP)", cnn);
+                    // Add the parameters.
+                    command.Parameters.Add(new SqlParameter("0", sessionKey));
+                    command.Parameters.Add(new SqlParameter("1", val));
+                    
+                }
+                else {
+                    command = new SqlCommand("UPDATE session set session_data= @0 WHERE session_key = @1", cnn);
+                    // Add the parameters.
+                    command.Parameters.Add(new SqlParameter("0", val));
+                    command.Parameters.Add(new SqlParameter("1", sessionKey));
+                    
+                }
+               
+
+                command.ExecuteNonQuery();
             }
-            else {
-                sessionMap.Add(sessionKey, val);
+            catch (Exception e) { }
+            finally
+            {
+                if (cnn != null)
+                    cnn.Close();
             }
         }
 
@@ -62,7 +128,7 @@ namespace BackendOrganizationManagement.Main.Handler
             {
                 DebugConsole.Debug(this, "Error Updating registry", e.Message);
             }
-             
+
 
             return false;
 
@@ -82,11 +148,12 @@ namespace BackendOrganizationManagement.Main.Handler
             catch (Exception e)
             {
                 DebugConsole.Debug(this, "Error getting registry", e.Message);
-                
+
             }
-            
+
 
             return null;
         }
     }
 }
+

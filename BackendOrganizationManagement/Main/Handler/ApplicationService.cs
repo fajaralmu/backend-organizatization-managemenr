@@ -46,9 +46,8 @@ namespace BackendOrganizationManagement.Main.Handler
                     requestDate = DateTime.Now
                 });
             }
-             
-            
-
+           
+            response.debug = RegistryService.getSessions();
             return response;
         }
     }

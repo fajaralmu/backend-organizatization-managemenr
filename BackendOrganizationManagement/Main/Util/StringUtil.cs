@@ -272,6 +272,8 @@ namespace BackendOrganizationManagement.Main.Util
 
             bool customMode = haSCustomModel(objectType);
             bool isList = objectType.Name.Contains("List");
+            bool isDictionary = objectType.Name.Contains("Dictionary");
+
             int i = 0;
             if (isList)
             {
@@ -293,6 +295,26 @@ namespace BackendOrganizationManagement.Main.Util
 
                 return result.Append("]").ToString();
 
+            }
+
+            if (isDictionary)
+            {
+                StringBuilder result = new StringBuilder("{");
+
+
+                IDictionary Map = (IDictionary)Object;
+
+                i = 0;
+                foreach(string key in Map.Keys)
+                {
+                    result = result.Append(doubleQuote(key)).Append(":").Append(serializeCustomModel(Map[key]));
+                    i++;
+                    if (i < Map.Keys.Count)
+                    {
+                        result = result.Append(",");
+                    }
+                }
+                return result.Append("}").ToString();
             }
 
             if (!customMode)
@@ -365,8 +387,13 @@ namespace BackendOrganizationManagement.Main.Util
             {
                 return Object.ToString();
             }
+            string quot  = "\"";
+            if(Object!=null && Object.ToString().Trim().EndsWith("}") && Object.ToString().Trim().StartsWith("{"))
+            {
+                quot = "";
+            }
 
-            return ("\"") + (Object == null ? "" : Object.ToString()) + ("\"");
+            return (quot) + (Object == null ? "" : Object.ToString() ) + (quot);
         }
 
         static bool typeOf(Type t, params Type[] types)

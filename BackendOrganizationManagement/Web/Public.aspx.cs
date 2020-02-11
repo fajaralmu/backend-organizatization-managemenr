@@ -14,6 +14,7 @@ using OrgWebMvc.Main.Util;
 using BackendOrganizationManagement.Main.Handler;
 using System.Web.Script.Services;
 using System.Web.Services;
+using System.Reflection;
 
 namespace BackendOrganizationManagement.Web
 {
@@ -21,18 +22,11 @@ namespace BackendOrganizationManagement.Web
     {
         private static ApplicationService appService = new ApplicationService();
 
+
         protected void Page_Load(object sender, EventArgs e)
-        {
+        { } 
 
-        }
-
-        private WebResponse GenerateAppId(string requestId)
-        {
-
-            return appService.generateAppId(requestId);
-        }
-
-        [WebMethod]
+        [System.Web.Services.WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public static string GenerateAppId()
         {
@@ -41,7 +35,15 @@ namespace BackendOrganizationManagement.Web
 
 
             WebResponse response = appService.generateAppId(webRequest.requestId);
+            //   response.message = RegistryService.getSessions()[webRequest.requestId];
             return (StringUtil.serializeCustomModel(response));
         }
     }
 }
+
+
+
+
+
+
+

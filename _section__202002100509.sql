@@ -1,0 +1,55 @@
+﻿INSERT INTO mpimedianet_management.dbo.[section] (name,division_id,parent_section_id,created_date) VALUES 
+('Divisi Syiar',2,NULL,'2020-02-06 21:45:44.053')
+,('Divisi Media',2,NULL,'2020-02-06 21:45:44.060')
+,('Divisi Humas',2,NULL,'2020-02-06 21:45:44.063')
+,('Divisi Kaderisasi',2,NULL,'2020-02-06 21:45:44.063')
+,('Pengurus Harian',2,NULL,'2020-02-06 21:45:44.067')
+,('Divisi Syiar',3,NULL,'2020-02-06 21:45:44.070')
+,('Divisi Media',3,NULL,'2020-02-06 21:45:44.070')
+,('Divisi Humas',3,NULL,'2020-02-06 21:45:44.073')
+,('Divisi Kaderisasi',3,NULL,'2020-02-06 21:45:44.073')
+,('Pengurus Harian',3,NULL,'2020-02-06 21:45:44.077')
+;
+INSERT INTO mpimedianet_management.dbo.[section] (name,division_id,parent_section_id,created_date) VALUES 
+('Divisi Syiar',4,NULL,'2020-02-06 21:45:44.077')
+,('Divisi Media',4,NULL,'2020-02-06 21:45:44.080')
+,('Divisi Humas',4,NULL,'2020-02-06 21:45:44.080')
+,('Divisi Kaderisasi',4,NULL,'2020-02-06 21:45:44.080')
+,('Pengurus Harian',4,NULL,'2020-02-06 21:45:44.080')
+,('Divisi Syiar',5,NULL,'2020-02-06 21:45:44.083')
+,('Divisi Media',5,NULL,'2020-02-06 21:45:44.083')
+,('Divisi Humas',5,NULL,'2020-02-06 21:45:44.083')
+,('Divisi Kaderisasi',5,NULL,'2020-02-06 21:45:44.087')
+,('Pengurus Harian',5,NULL,'2020-02-06 21:45:44.087')
+;
+INSERT INTO mpimedianet_management.dbo.[section] (name,division_id,parent_section_id,created_date) VALUES 
+('Divisi Syiar',6,NULL,'2020-02-06 21:46:29.237')
+,('Divisi Media',6,NULL,'2020-02-06 21:46:29.243')
+,('Divisi Humas',6,NULL,'2020-02-06 21:46:29.243')
+,('Divisi Kaderisasi',6,NULL,'2020-02-06 21:46:29.247')
+,('Pengurus Harian',6,NULL,'2020-02-06 21:46:29.247')
+,('Divisi Syiar',7,NULL,'2020-02-06 21:46:29.250')
+,('Divisi Media',7,NULL,'2020-02-06 21:46:29.250')
+,('Divisi Humas',7,NULL,'2020-02-06 21:46:29.253')
+,('Divisi Kaderisasi',7,NULL,'2020-02-06 21:46:29.253')
+,('Pengurus Harian',7,NULL,'2020-02-06 21:46:29.253')
+;
+INSERT INTO mpimedianet_management.dbo.[section] (name,division_id,parent_section_id,created_date) VALUES 
+('Divisi Syiar',8,NULL,'2020-02-06 21:46:29.257')
+,('Divisi Media',8,NULL,'2020-02-06 21:46:29.257')
+,('Divisi Humas',8,NULL,'2020-02-06 21:46:29.260')
+,('Divisi Kaderisasi',8,NULL,'2020-02-06 21:46:29.260')
+,('Pengurus Harian',8,NULL,'2020-02-06 21:46:29.260')
+,('Divisi Syiar',9,NULL,'2020-02-06 21:46:29.260')
+,('Divisi Media',9,NULL,'2020-02-06 21:46:29.263')
+,('Divisi Humas',9,NULL,'2020-02-06 21:46:29.263')
+,('Divisi Kaderisasi',9,NULL,'2020-02-06 21:46:29.267')
+,('Pengurus Harian',9,NULL,'2020-02-06 21:46:29.267')
+;
+INSERT INTO mpimedianet_management.dbo.[section] (name,division_id,parent_section_id,created_date) VALUES 
+('Divisi Syiar',10,NULL,'2020-02-06 21:46:29.270')
+,('Divisi Media',10,NULL,'2020-02-06 21:46:29.270')
+,('Divisi Humas',10,NULL,'2020-02-06 21:46:29.270')
+,('Divisi Kaderisasi',10,NULL,'2020-02-06 21:46:29.273')
+,('Pengurus Harian',10,NULL,'2020-02-06 21:46:29.273')
+;

@@ -16,6 +16,8 @@ namespace BackendOrganizationManagement.Main.Dto
         public List<BaseEntity> entities { get; set; }
         public List<division> divisions { get; set; } 
         
+        public Dictionary<string, string> debug { get; set; }
+
         public int totalData { get; set; }
         public SessionData sessionData { get; set; }
         public bool loggedIn { get; set; }

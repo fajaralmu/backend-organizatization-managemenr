@@ -350,6 +350,10 @@
     <Compile Include="Web\Admin.aspx.designer.cs">
       <DependentUpon>Admin.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Web\Api\AdminController.cs" />
+    <Compile Include="Web\Api\ManagementController.cs" />
+    <Compile Include="Web\Api\PublicController.cs" />
+    <Compile Include="Web\Api\AccountController.cs" />
     <Compile Include="Web\Management.aspx.cs">
       <DependentUpon>Management.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
@@ -22,9 +23,10 @@ namespace BackendOrganizationManagement.Web
         public string ResponseJson { get; private set; }
 
         protected void Page_Load(object sender, EventArgs e)
-        {  
-        } 
-        
+        {
+             
+        }
+
 
         private WebResponse DoLogout(WebRequest webRequest)
         {
