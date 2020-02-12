@@ -33,5 +33,31 @@ namespace BackendOrganizationManagement.Web.Api
         {
             return Management.Delete();
         }
+		
+		/** ================GET=============== **/
+		[HttpGet]
+        [ActionName("add")]
+        public string Getadd()
+        {
+            return Management.Add();
+        }
+        [HttpGet]
+        [ActionName("update")]
+        public string Getupdate()
+        {
+            return Management.Update();
+        }
+        [HttpGet]
+        [ActionName("get")]
+        public string Getget()
+        {
+            return Management.Get();
+        }
+        [HttpGet]
+        [ActionName("delete")]
+        public string Getdelete()
+        {
+            return Management.Delete();
+        }
     }
 }

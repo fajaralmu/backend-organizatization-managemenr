@@ -45,7 +45,31 @@ namespace BackendOrganizationManagement.Web.Api
         {
             return Account.SetDivision();
         }
-
+/** GET **/
+		[HttpGet]
+        [ActionName( "login")]
+        public string GETlogin()
+        {
+            return Account.Login();
+        }
+        [HttpGet]
+        [ActionName("logout")]
+        public string GETlogout()
+        {
+            return Account.Logout();
+        }
+        [HttpGet]
+        [ActionName("divisions")]
+        public string GETdivisions()
+        {
+            return Account.Divisions();
+        }
+        [HttpGet]
+        [ActionName("setdivision")]
+        public string GETsetdivision()
+        {
+            return Account.SetDivision();
+        }
 
     }
 }

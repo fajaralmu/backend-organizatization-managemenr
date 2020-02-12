@@ -25,8 +25,8 @@ namespace BackendOrganizationManagement.Main.Handler
             return new Dictionary<string, string>();
         }
 
-        static string connectionString = "data source=FAJAR-PC\\SQLEXPRESS;initial catalog=mpi_db;user id=sa;password=fjrmnwwrsqlserver;";
-
+      //  static string connectionString = "data source=FAJAR-PC\\SQLEXPRESS;initial catalog=mpi_db;user id=sa;password=fjrmnwwrsqlserver;";
+		static string connectionString =  "Server=sql.freeasphost.net\\MSSQL2016;Database=mpimedianet_management;uid=mpimedianet;pwd=dakwahmedia";
           
 
         public static string GetValue(string sessionKey)

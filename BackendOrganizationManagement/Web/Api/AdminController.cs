@@ -21,5 +21,12 @@ namespace BackendOrganizationManagement.Web.Api
         {
             return Admin.Event();
         }
+		
+		[HttpGet]
+        [ActionName("event")]
+        public string GETevents()
+        {
+            return Admin.Event();
+        }
     }
 }
